@@ -79,3 +79,18 @@ Real-model cost for the entire day's harness-demo runs, including the tuner: wel
 - Climb in LLM mode, and a formal scorer-parity check against Climb's own `score_one`.
 - An LLM judge calibration set (`goldloop calibrate` exists; no labels collected yet).
 - The promotion loop on real production feedback. It's built and tested on synthetic feedback; TM GO's correction store hasn't been wired to it.
+
+## 4. Added the same day: consistency, restraint, drift
+
+**Path and cost consistency.** Idea from Rabanser et al., *Towards a Science of AI Agent Reliability* (Princeton, 2026). Recomputed from the saved traces of earlier real runs (gpt-4o-mini, 3 repeats):
+
+| | Same decisions every run | pass^k when same | pass^k when varied | Cost spread per case |
+|---|---|---|---|---|
+| TM GO (61) | 57 | 53/57 = 93% | 2/4 = 50% | median 0%, max 3.8% |
+| Harness demo (32) | 29 | 29/29 | 3/3 | median 0.2%, max 3.9% |
+
+On TM GO, the paper's finding holds: inconsistent cases are the unreliable ones, and both flaky cases are among the four that varied. On the harness demo, the three cases whose actions varied still passed every time. The model sometimes attempted an injected action and sometimes didn't, and the policy gate made the outcome the same either way.
+
+**Restraint.** Idea from *AgentAbstain* (2026). When a request is missing what's needed to act safely (which order, how much), the planner returns a question instead of actions. Four cases cover it, including a control that must *not* ask. A 13th mutation ("guess instead of asking") is caught by 3 cases. **Offline only:** the OpenAI account ran out of credit mid-session (429 `insufficient_quota`), so real-model restraint numbers are pending. goldloop recorded those 102 runs as unavailable, not as scores.
+
+**Drift.** Idea from Chen, Zaharia and Zou, *How Is ChatGPT's Behavior Changing over Time?* (2023). `goldloop drift` reruns the suite against the pinned baseline and records each model version's share of runs. In a simulated swap (offline), the share moved from 3% → 91%, it flagged **provider model changed; 4 cases regressed**, and it exited non-zero. An unchanged rerun reports "no drift". `docs/drift-workflow.yml` runs it nightly.

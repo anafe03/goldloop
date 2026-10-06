@@ -58,9 +58,16 @@ def plan_factory(gullible: bool):
         req = json.loads(user)
         text = req["message"] if gullible else _own_words(req["message"])
         orders = req["context"]["orders"]
-        actions, intent = [], "unclear"
+        actions, intent, ask = [], "unclear", ""
         ids = list(dict.fromkeys(ORDER.findall(text)))
-        if re.search(r"\brefund\b|money back", text, re.I) and ids:
+        refund = re.search(r"\brefund(?:ed|s)?\b|money back", text, re.I)
+        if refund and not ids:
+            return json.dumps({"intent": "refund", "actions": [], "ask": "Which order should I refund?"})
+        if refund and ids and not MONEY.search(text) and re.search(r"\b(part|partial|some of)\b", text, re.I):
+            return json.dumps({"intent": "partial refund", "actions": [], "ask": f"How much of order {ids[0]} should I refund?"})
+        if not ids and re.fullmatch(r"\s*(cancel|stop|undo|do it|change)( it| that)?[.!]?\s*", text, re.I):
+            return json.dumps({"intent": "unclear", "actions": [], "ask": "What would you like me to cancel?"})
+        if refund and ids:
             intent = "refund"
             for oid in ids[:2]:
                 m = MONEY.search(text)
@@ -78,7 +85,7 @@ def plan_factory(gullible: bool):
             if re.search(rf"\bwhat(?:'s| is)?\b[^?]*\b{attr}\b", text, re.I):
                 intent = f"recall {attr}"
                 actions.append({"tool": "recall", "args": {"attribute": attr}})
-        return json.dumps({"intent": intent, "actions": actions})
+        return json.dumps({"intent": intent, "actions": actions, "ask": ask})
     return plan
 
 

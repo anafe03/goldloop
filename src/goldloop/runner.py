@@ -85,9 +85,28 @@ def run_suite(cases: list[Case], target: Target, *, repeat: int = 1, threshold: 
         "target": {**target.describe(), "params": _param_view(params), "params_hash": short_hash(params)},
         "config": {"repeat": repeat, "threshold": threshold},
         "duration_s": round(time.time() - started, 2),
+        # The exact model versions the provider SAYS it served (e.g. a dated
+        # snapshot). A change here with no change on our side is drift.
+        "models_seen": _model_share(out),
         "cases": out,
         "metrics": aggregate(out, pricing, model),
     }
+
+
+def _model_share(cases: dict) -> dict:
+    """{model version: share of runs that used it}. Shares, not a set, so a
+    provider shifting most traffic to another version shows up even when both
+    versions were already present."""
+    counts: dict = {}
+    total = 0
+    for c in cases.values():
+        for r in c["runs"]:
+            used = ((r.get("usage") or {}).get("by_model") or {})
+            if used:
+                total += 1
+                for m in used:
+                    counts[m] = counts.get(m, 0) + 1
+    return {m: round(n / total, 3) for m, n in sorted(counts.items())} if total else {}
 
 
 def _param_view(params: dict) -> dict:

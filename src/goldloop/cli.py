@@ -5,6 +5,7 @@
   goldloop run                      score the suite, save the run
   goldloop gate                     run (or take --run) and fail on policy / regressions vs baseline
   goldloop baseline latest          make a run the baseline (commit .goldloop/baseline.json)
+  goldloop drift                    nightly: did the provider's model or any case change vs baseline?
   goldloop compare previous latest  case-level diff + McNemar
   goldloop runs                     history
   goldloop report                   HTML page: latest run + trend
@@ -139,6 +140,35 @@ def cmd_gate(args):
     sys.exit(0 if ok else 1)
 
 
+def cmd_drift(args):
+    """Scheduled check: same suite, same settings, compared to the pinned
+    baseline. Flags a provider serving a different model version, and any
+    case that changed outcome. Meant for a nightly job, not a PR."""
+    cfg = load_config(args.config)
+    base = store.load_run(args.baseline)
+    run = store.load_run(args.run) if args.run else _do_run(cfg, args, label="drift")
+    cmp = compare(base, run)
+    def share(x):
+        return x if isinstance(x, dict) else {m: 1.0 for m in (x or [])}
+    was, now = share(base.get("models_seen")), share(run.get("models_seen"))
+    moved = {m: (was.get(m, 0.0), now.get(m, 0.0)) for m in set(was) | set(now)
+             if abs(was.get(m, 0.0) - now.get(m, 0.0)) > 0.2}
+    swapped = bool(was) and bool(now) and bool(moved)
+    fmt = lambda d: ", ".join(f"{m} {v:.0%}" for m, v in sorted(d.items())) or "unknown"
+    print(f"baseline {base['id']}  →  now {run['id']}")
+    print(f"models served (share of runs): {fmt(was)}  →  {fmt(now)}" + ("   ⚠ CHANGED" if swapped else ""))
+    print(report.compare_text(cmp))
+    drift = swapped or bool(cmp["regressions"]) or not run["metrics"]["complete"]
+    verdict = ("DRIFT: " + "; ".join(x for x in [
+        "provider model changed" if swapped else "",
+        f"{len(cmp['regressions'])} case(s) regressed" if cmp["regressions"] else "",
+        "run incomplete (outage)" if not run["metrics"]["complete"] else ""] if x)) if drift else "no drift"
+    print("\n" + verdict)
+    if args.markdown:
+        Path(args.markdown).write_text(f"### goldloop drift check\n**{verdict}**\n\n```\n{report.compare_text(cmp)}\n```\n")
+    sys.exit(1 if drift else 0)
+
+
 def cmd_baseline(args):
     run = store.load_run(args.run)
     p = store.set_baseline(run)
@@ -269,6 +299,10 @@ def main(argv=None):
     p.add_argument("--markdown", help="write a PR-comment summary here")
     p.set_defaults(fn=cmd_gate)
     p = sub.add_parser("baseline"); p.add_argument("run", nargs="?", default="latest"); p.set_defaults(fn=cmd_baseline)
+    p = sub.add_parser("drift"); runopts(p)
+    p.add_argument("--run", help="check an existing run instead of running")
+    p.add_argument("--baseline", default="baseline"); p.add_argument("--markdown")
+    p.set_defaults(fn=cmd_drift)
     p = sub.add_parser("compare"); p.add_argument("base", nargs="?", default="baseline")
     p.add_argument("cand", nargs="?", default="latest"); p.set_defaults(fn=cmd_compare)
     p = sub.add_parser("runs"); p.add_argument("-n", type=int, default=20); p.set_defaults(fn=cmd_runs)

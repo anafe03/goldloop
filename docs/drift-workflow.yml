@@ -1,0 +1,20 @@
+# Copy to .github/workflows/drift.yml in the repo that owns the agent.
+# Runs the suite every night against the committed baseline. Fails (and so
+# notifies) when the provider serves a different model version, a case that
+# passed now fails, or the run couldn't complete.
+name: drift
+on:
+  schedule: [{cron: "0 7 * * *"}]
+  workflow_dispatch:
+jobs:
+  drift:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: pip install goldloop   # or the git URL until it's on PyPI
+      - run: goldloop drift --repeat 3 --markdown drift.md
+        env: {OPENAI_API_KEY: "${{ secrets.OPENAI_API_KEY }}"}
+      - if: failure()
+        run: cat drift.md >> "$GITHUB_STEP_SUMMARY"

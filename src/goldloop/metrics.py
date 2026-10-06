@@ -25,17 +25,31 @@ def wilson(k: int, n: int, z: float = 1.96) -> tuple[float, float]:
     return (max(0.0, centre - half), min(1.0, centre + half))
 
 
+def _tokens(r: dict) -> int:
+    u = r.get("usage") or {}
+    return int(u.get("input_tokens", 0) or 0) + int(u.get("output_tokens", 0) or 0)
+
+
 def case_summary(runs: list[dict]) -> dict:
+    """Outcome consistency (pass^k) plus the two other kinds Rabanser et al.,
+    "Towards a Science of AI Agent Reliability" (2026) separate out:
+    trajectory consistency (did every repeat take the same steps?) and
+    resource consistency (did it cost about the same each time?)."""
     scored = [r for r in runs if r["status"] != "unavailable"]
     if not scored:
         return {"status": "unavailable", "mean": None, "passed_all": False, "flaky": False,
                 "n_scored": 0, "n_unavailable": len(runs)}
     passes = [r["passed"] for r in scored]
+    paths = {tuple(r.get("trajectory") or ()) for r in scored if r["status"] == "ok"}
+    toks = [_tokens(r) for r in scored if r["status"] == "ok" and _tokens(r)]
+    spread = (max(toks) - min(toks)) / (sum(toks) / len(toks)) if len(toks) > 1 else None
     return {"status": "error" if all(r["status"] == "error" for r in scored) else "ok",
             "mean": sum(r["score"] for r in scored) / len(scored),
             "passed_all": all(passes), "passed_any": any(passes),
             "flaky": any(passes) and not all(passes),
-            "n_scored": len(scored), "n_unavailable": len(runs) - len(scored)}
+            "n_scored": len(scored), "n_unavailable": len(runs) - len(scored),
+            "n_paths": len(paths) if any(paths) else None,
+            "token_spread": spread}
 
 
 def cost_of(usage: dict, pricing: dict, fallback_model: str = "") -> float | None:
@@ -73,7 +87,24 @@ def aggregate(cases: dict, pricing: dict | None = None, model: str = "") -> dict
             for t in c.get("tags") or ["untagged"]:
                 by_tag[t].append(c["summary"])
 
+    # Consistency beyond outcomes: only meaningful with repeats and recorded steps.
+    multi = [s for s in live if s["n_scored"] > 1 and s.get("n_paths")]
+    same_path = [s for s in multi if s["n_paths"] == 1]
+    varied = [s for s in multi if s["n_paths"] > 1]
+    spreads = sorted(s["token_spread"] for s in live if s.get("token_spread") is not None)
+    consistency = None
+    if multi:
+        consistency = {
+            "path_consistent": len(same_path) / len(multi), "n": len(multi),
+            "pass_all_when_same_path": (sum(s["passed_all"] for s in same_path) / len(same_path)) if same_path else None,
+            "pass_all_when_path_varies": (sum(s["passed_all"] for s in varied) / len(varied)) if varied else None,
+            "median_token_spread": spreads[len(spreads) // 2] if spreads else None,
+            "varied_paths": sorted(cid for cid, c in cases.items()
+                                   if (c["summary"].get("n_paths") or 0) > 1),
+        }
+
     return {
+        "consistency": consistency,
         "n_cases": len(sums), "n_scored": n,
         "complete": n == len(sums) and not any(s["n_unavailable"] for s in sums),
         "mean": sum(s["mean"] for s in live) / n if n else None,

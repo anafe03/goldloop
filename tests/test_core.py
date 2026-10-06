@@ -258,3 +258,19 @@ def test_missing_param_file_fails_loudly():
     from goldloop.targets import _load_param_files
     with pytest.raises(FileNotFoundError):
         _load_param_files({"prompt_file": "prompts/typo.txt"})
+
+
+def test_path_and_cost_consistency():
+    from goldloop.targets import Result
+    flips = itertools.cycle([["a", "b"], ["a", "c"]])
+    lock = threading.Lock()
+
+    def fn(x):
+        if x == "wanders":
+            with lock:
+                return Result("ok", usage={"input_tokens": 100, "output_tokens": 0}, trajectory=next(flips))
+        return Result("ok", usage={"input_tokens": 100, "output_tokens": 0}, trajectory=["a", "b"])
+    run = run_suite(cases_of("steady", "wanders"), PythonTarget(fn, {}), repeat=4, concurrency=1)
+    con = run["metrics"]["consistency"]
+    assert con["path_consistent"] == 0.5 and con["varied_paths"] == ["wanders"]
+    assert run["cases"]["steady"]["summary"]["token_spread"] == 0.0

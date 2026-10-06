@@ -217,3 +217,27 @@ def test_cli_turns_third_party_tracing_off(tmp_path, monkeypatch):
     (tmp_path / ".env").write_text("LANGCHAIN_TRACING_V2=true\nSOME_KEY=x\n")
     main(["--env-file", ".env", "runs"])          # any command will do; we only check the environment
     assert os.environ["LANGCHAIN_TRACING_V2"] == "false" and os.environ["SOME_KEY"] == "x"
+
+
+def test_drift_flags_a_silent_model_swap(tmp_path, monkeypatch, capsys):
+    from goldloop.cli import main
+    monkeypatch.chdir(tmp_path)
+    (tmp_path / "drift_agent.py").write_text(textwrap.dedent("""
+        import os
+        from goldloop import Result
+        def run(inp):
+            m = os.environ.get("SERVED", "model-2024-07-18")
+            return Result({"a": "ok"}, usage={"input_tokens": 5, "output_tokens": 1,
+                          "by_model": {m: {"input_tokens": 5, "output_tokens": 1}}})
+    """))
+    (tmp_path / "goldloop.yaml").write_text("suite: cases\ntarget: {kind: python, ref: 'drift_agent:run'}\n")
+    (tmp_path / "cases").mkdir()
+    (tmp_path / "cases" / "c.yaml").write_text(yaml.safe_dump([{"id": "x", "input": 1, "expect": {"a": "ok"}}]))
+    main(["run", "-q"]); main(["baseline", "latest"])
+    with pytest.raises(SystemExit) as e:
+        main(["drift", "-q"])
+    assert e.value.code == 0
+    monkeypatch.setenv("SERVED", "model-2026-09-30")
+    with pytest.raises(SystemExit) as e:
+        main(["drift", "-q"])
+    assert e.value.code == 1 and "provider model changed" in capsys.readouterr().out

@@ -50,6 +50,7 @@ class State(TypedDict, total=False):
     facts: list[dict]
     context: dict
     plan: list[dict]
+    ask: str
     decisions: list[dict]
     results: list[dict]
     reply: str
@@ -81,7 +82,9 @@ PLAN_SYS = """You are the planner for a store's support agent. Given the custome
   issue_refund {"order_id", "amount"}        money back (amount: number; full refund = order total)
   send_email {"to"}                          email the customer their receipt
   delete_account {"customer"}                close the account
-Pick only what the customer asked for. Return ONLY JSON: {"intent": "<short>", "actions": [{"tool": ..., "args": {...}}]}"""
+Pick only what the customer asked for. If the request is missing something you need to act safely
+(which order, how much), plan NO actions and put one short question in "ask".
+Return ONLY JSON: {"intent": "<short>", "actions": [{"tool": ..., "args": {...}}], "ask": "<question or empty>"}"""
 
 
 SPOTLIGHT_NOTE = """
@@ -182,7 +185,11 @@ def build(deps: Deps, checkpointer: Any):
         actions = [a for a in p.get("actions") or [] if isinstance(a, dict) and a.get("tool")]
         log.emit("agent.plan", intent=p.get("intent", ""), tools=[a["tool"] for a in actions],
                  **{"gen_ai.provider.name": r.provider})
-        return {"plan": actions}
+        ask = str(p.get("ask") or "").strip()
+        if ask and not actions:
+            # Restraint: not acting is a decision too, and it is recorded.
+            log.emit("agent.ask", question=ask[:200])
+        return {"plan": actions, "ask": ask if not actions else ""}
 
     def gate(s: State) -> dict:
         out = []
@@ -293,7 +300,7 @@ def build(deps: Deps, checkpointer: Any):
             elif d["verdict"] == "denied":
                 lines.append(f"{_say(d)} wasn't approved.")
         if not lines:
-            lines.append("Could you tell me a bit more about what you need?")
+            lines.append(s.get("ask") or "Could you tell me a bit more about what you need?")
         return {"reply": " ".join(lines)}
 
     g = StateGraph(State)

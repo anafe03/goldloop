@@ -45,7 +45,7 @@ def _provider(spec: str):
     if spec in ("rules", "careful"):
         return RulesProvider(rules.handlers(False), name="rules")
     if spec == "gullible":
-        return RulesProvider(rules.handlers(True), name="rules-gullible")
+        return RulesProvider(rules.handlers(True), name="rules-gullible", model="rules-gullible-v1")
     return LangChainProvider(spec)
 
 
@@ -167,7 +167,13 @@ def run(inp: dict, params: dict) -> Result:
             m["input_tokens"] += a.get("gen_ai.usage.input_tokens", 0)
             m["output_tokens"] += a.get("gen_ai.usage.output_tokens", 0)
     usage["by_model"] = by_model
-    return Result(output=out, usage=usage, trajectory=nodes,
+    # The path that matters for consistency is what the agent DID: each tool it
+    # chose and what the policy decided, in order (graph nodes never vary).
+    actions = [f"{e['attrs']['tool']}:{e['attrs']['decision']}" for e in log.events
+               if e["name"] == "policy.decision" and e["attrs"].get("actor") == "agent"]
+    actions += ["ask"] if any(e["name"] == "agent.ask" for e in log.events) else []
+    out["nodes"] = nodes
+    return Result(output=out, usage=usage, trajectory=actions,
                   events=[{"name": e["name"], "attrs": e["attrs"]} for e in log.events])
 
 

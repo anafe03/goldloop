@@ -43,6 +43,14 @@ def run_text(run: dict, verbose: bool = False) -> str:
         tail.append(f"flaky: {', '.join(m['flaky'])}")
     if m["unavailable_runs"]:
         tail.append(f"⚠ {m['unavailable_runs']} run(s) UNAVAILABLE: excluded from scores, run marked incomplete")
+    con = m.get("consistency")
+    if con:
+        def pc(x):
+            return "n/a" if x is None else f"{x:.0%}"
+        tail.append(f"same steps every repeat: {pc(con['path_consistent'])} of {con['n']} cases"
+                    f" (pass^k {pc(con['pass_all_when_same_path'])} when steps match, "
+                    f"{pc(con['pass_all_when_path_varies'])} when they vary)"
+                    + (f" · median token spread {con['median_token_spread']:.0%}" if con['median_token_spread'] is not None else ""))
     tail.append(f"latency p50 {m['latency_ms']['p50']:.0f}ms p95 {m['latency_ms']['p95']:.0f}ms"
                 f"  ·  tokens {m['tokens']['input']}/{m['tokens']['output']}  ·  cost {money(m['cost_usd'])}")
     return "\n".join(lines + tail)

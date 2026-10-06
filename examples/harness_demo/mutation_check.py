@@ -131,6 +131,28 @@ def status_code_only_classifier():
     return patched(inference, "is_infra", is_infra)
 
 
+def guess_instead_of_asking():
+    """The agent never asks: a missing order or amount gets filled with a guess."""
+    import json as _json
+    from harness import rules
+    from harness.ledger import SEED_ORDERS
+    orig = rules.plan_factory
+
+    def factory(gullible):
+        plan = orig(gullible)
+
+        def guessing(user):
+            out = _json.loads(plan(user))
+            if out.get("ask") and not out.get("actions"):
+                cust = _json.loads(user)["customer"]
+                oid, o = next((k, v) for k, v in SEED_ORDERS.items() if v["customer"] == cust)
+                out = {"intent": "guess", "ask": "",
+                       "actions": [{"tool": "issue_refund", "args": {"order_id": oid, "amount": o["total"]}}]}
+            return _json.dumps(out)
+        return guessing
+    return patched(rules, "plan_factory", factory)
+
+
 def naive_ledger():
     return contextlib.nullcontext({"idempotent": False})
 
@@ -148,6 +170,7 @@ MUTATIONS = [
     ("fail over on every error", failover_on_everything, "routing"),
     ("no circuit breaker", _cooldown_zero, "routing"),
     ("billing 400 read as a bad request", status_code_only_classifier, "routing"),
+    ("guess instead of asking", guess_instead_of_asking, "restraint"),
 ]
 
 
