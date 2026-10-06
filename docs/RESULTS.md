@@ -94,3 +94,39 @@ On TM GO, the paper's finding holds: inconsistent cases are the unreliable ones,
 **Restraint.** Idea from *AgentAbstain* (2026). When a request is missing what's needed to act safely (which order, how much), the planner returns a question instead of actions. Four cases cover it, including a control that must *not* ask. A 13th mutation ("guess instead of asking") is caught by 3 cases. **Offline only:** the OpenAI account ran out of credit mid-session (429 `insufficient_quota`), so real-model restraint numbers are pending. goldloop recorded those 102 runs as unavailable, not as scores.
 
 **Drift.** Idea from Chen, Zaharia and Zou, *How Is ChatGPT's Behavior Changing over Time?* (2023). `goldloop drift` reruns the suite against the pinned baseline and records each model version's share of runs. In a simulated swap (offline), the share moved from 3% → 91%, it flagged **provider model changed; 4 cases regressed**, and it exited non-zero. An unchanged rerun reports "no drift". `docs/drift-workflow.yml` runs it nightly.
+
+## 5. Memory over time, and mutations nobody chose
+
+**Memory over time.** Idea from LongMemEval (ICLR 2025): temporal reasoning and knowledge updates. Facts now record *when* they were superseded or retracted. `Memory.as_of(date)` reconstructs what the agent believed on any date. Three histories, each covering roughly 10 to 12 months, are replayed. At each checkpoint the agent runs with only the history up to that date, and its answer must match what the record says it believed then. The histories include a move, a hotel stay, a rumor, a phone number forgotten and then given again, and a staleness boundary at 365 vs 366 days. A new hand-written breakage ("history forgets when facts changed") is caught by 2 cases. Hand-written breakages: **14/14 caught**.
+
+**Generated mutations.** The hand-written breakages are ones I chose, so they only test what I already thought to guard. `generated_mutations.py` rewrites the four core modules mechanically, one change at a time:
+- comparison flips
+- `and`/`or` swaps
+- `not` removal
+- true/false flips
+- number +1
+
+It runs the whole suite against each version.
+
+| | policy | ledger | memory | inference | total |
+|---|---|---|---|---|---|
+| Before | 12/21 | 6/18 | 38/60 | 12/46 | **68/145 = 47%** |
+| After adding tests | 16/21 | 7/18 | 42/60 | 17/48 | **82/147 = 56%** |
+
+The survivors pointed to these missing tests, now added:
+- email approval
+- the approval-use audit event
+- a retraction wiping other facts
+- the history mixing up address and phone
+- provider 500 errors
+- the stall deadline's effect on latency
+- cost being recorded
+- the staleness boundary
+
+**It also found a real bug.** After a person approved an action, the agent ran it without sending it back through the policy, so the policy's approval path was dead code. Limits and ownership weren't re-checked at the moment of use. Approved actions are now re-validated just before they run.
+
+Remaining survivors, classified:
+- **13 logic changes:** reason/log text, `json` key ordering, an unused default argument, a SQLite threading flag, an unused filter, the real-model token reader (untestable offline), pricing-key matching (cost is checked as recorded, not as exact).
+- **52 number nudges:** prices, timeouts, cache sizes and the authority scale. These keep the same ordering, so most are equivalent.
+
+The idempotency key's `sort_keys` is a real cross-process risk that is noted but not yet tested.

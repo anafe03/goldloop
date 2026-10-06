@@ -75,21 +75,47 @@ class Memory:
             return fact
         for o in olds:
             o["status"], o["superseded_by"] = "superseded", fact["id"]
+            o["superseded_at"] = observed_at
             self.log.emit("memory.supersede", attribute=attribute, old=o["id"], new=fact["id"], source_ref=source_ref)
         self.facts.append(fact)
         self.log.emit("memory.write", attribute=attribute, fact_id=fact["id"], source=source,
                       source_ref=source_ref, temporary=bool(valid_until))
         return fact
 
-    def retract(self, subject: str, attribute: str, *, source: str, source_ref: str) -> int:
+    def retract(self, subject: str, attribute: str, *, source: str, source_ref: str,
+                at: str | None = None) -> int:
         n = 0
         for f in self.facts:
             if f["subject"] == subject and f["attribute"] == attribute and f["status"] == "active" \
                     and AUTHORITY.get(source, 0) >= f["authority"]:
                 f["status"], f["retracted_by"] = "retracted", source_ref
+                f["retracted_at"] = at
                 n += 1
         self.log.emit("memory.retract", attribute=attribute, count=n, source_ref=source_ref)
         return n
+
+    def as_of(self, subject: str, attribute: str, at: str) -> dict | None:
+        """What we believed on date `at`, reconstructed from the record: facts
+        observed by then, not yet superseded or retracted by then, and (for
+        temporary ones) still in their window. This is the audit question,
+        "what did the agent think on March 18, and why?", and it must agree with
+        what the agent actually said on March 18."""
+        day = _d(at)
+
+        def held(f):
+            if f["subject"] != subject or f["attribute"] != attribute or f["status"] == "disputed":
+                return False
+            if _d(f["observed_at"]) > day:
+                return False
+            if f.get("superseded_at") and _d(f["superseded_at"]) <= day:
+                return False
+            if f.get("retracted_at") and _d(f["retracted_at"]) <= day:
+                return False
+            return not f.get("valid_until") or _d(f["valid_until"]) >= day
+        live = [f for f in self.facts if held(f)]
+        if not live:
+            return None
+        return max(live, key=lambda f: (bool(f.get("valid_until")), f["authority"], f["observed_at"]))
 
     def get(self, subject: str, attribute: str, at: str) -> dict | None:
         """The fact to act on at date `at`: an unexpired overlay if any, else the

@@ -139,7 +139,8 @@ def build(deps: Deps, checkpointer: Any):
                 if op.get("hearsay") and source == "user":
                     source = "third_party"
                 if op.get("op") == "retract":
-                    mem.retract(s["customer"], attr, source=source, source_ref=m.get("id", "?"))
+                    mem.retract(s["customer"], attr, source=source, source_ref=m.get("id", "?"),
+                                at=m.get("at", s["now"]))
                 elif op.get("value"):
                     mem.write(s["customer"], attr, str(op["value"]), source=source,
                               source_ref=m.get("id", "?"), quote=m["text"][:160],
@@ -223,9 +224,15 @@ def build(deps: Deps, checkpointer: Any):
         for d in s["decisions"]:
             if d["verdict"] == "needs_approval":
                 if d["key"] in yes:
-                    d = {**d, "verdict": "run", "reason": "approved by a person"}
                     log.emit("approval.granted", tool=d["tool"], approval_key=d["key"],
                              approver=answer.get("by", "unknown"))
+                    # Re-check with the approval in hand, at the moment of use: the
+                    # policy (limits, ownership) gets the last word, not the approval.
+                    # Found by generated mutations: this path was dead code before.
+                    o = SEED_ORDERS.get(str(d["args"].get("order_id"))) if "order_id" in d["args"] else None
+                    owner_ok = o is None and "order_id" not in d["args"] or bool(o) and o["customer"] == s["customer"]
+                    rd = decide(policy, d["tool"], d["args"], yes, log, owner_ok=owner_ok)
+                    d = {**d, "verdict": rd.verdict, "reason": "approved by a person" if rd.verdict == "run" else rd.reason}
                 else:
                     d = {**d, "verdict": "denied", "reason": "a person said no"}
                     log.emit("approval.denied", tool=d["tool"], approval_key=d["key"])

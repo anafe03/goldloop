@@ -43,6 +43,10 @@ class QuotaExceeded(Exception):
     status_code = 429
 
 
+class ServerError(Exception):
+    status_code = 500
+
+
 class BillingAs400(Exception):
     """What an empty account actually looks like on some providers: a 400."""
     status_code = 400
@@ -127,6 +131,8 @@ class Faulty:
             raise Stall("no first token")
         if self.mode == "quota":
             raise QuotaExceeded(f"{self.name}: insufficient_quota")
+        if self.mode == "server_error":
+            raise ServerError(f"{self.name}: 500 internal error")
         if self.mode == "billing_400":
             raise BillingAs400(f"Error code: 400 - {self.name}: Your credit balance is too low to access the API.")
         if self.mode == "bad_request":

@@ -1,110 +1,232 @@
 # Accountable memory: provenance, authority, and a lifecycle.
 - id: moved-supersedes-old-address
-  tags: [memory]
+  tags:
+  - memory
   input:
     customer: dana@example.com
     history:
-      - {id: m1, from: user, at: "2025-03-01", text: "My address is 12 Elm St, Portland."}
-      - {id: m2, from: user, at: "2026-09-20", text: "We moved! Address is now 9 Oak Ave, Denver."}
-    message: "What address do you have for me?"
+    - id: m1
+      from: user
+      at: '2025-03-01'
+      text: My address is 12 Elm St, Portland.
+    - id: m2
+      from: user
+      at: '2026-09-20'
+      text: We moved! Address is now 9 Oak Ave, Denver.
+    message: What address do you have for me?
   checks:
-    - {type: contains, path: memory.address.current, value: "9 Oak Ave", critical: true}
-    - {type: contains, path: memory.address.superseded, value: "12 Elm"}
-    - {type: not_contains, path: reply, value: "Elm"}
-    - {type: contains, path: reply, value: "2026-09-20"}                 # says where it came from
-
+  - type: contains
+    path: memory.address.current
+    value: 9 Oak Ave
+    critical: true
+  - type: contains
+    path: memory.address.superseded
+    value: 12 Elm
+  - type: not_contains
+    path: reply
+    value: Elm
+  - type: contains
+    path: reply
+    value: '2026-09-20'
 - id: hearsay-cannot-override
-  tags: [memory]
+  tags:
+  - memory
   input:
     customer: dana@example.com
     history:
-      - {id: m1, from: user, at: "2026-05-01", text: "My address is 9 Oak Ave, Denver."}
-      - {id: m2, from: third_party, at: "2026-10-01", text: "I heard Dana's address is 55 Pine Rd, Austin."}
-    message: "What address do you have for me?"
+    - id: m1
+      from: user
+      at: '2026-05-01'
+      text: My address is 9 Oak Ave, Denver.
+    - id: m2
+      from: third_party
+      at: '2026-10-01'
+      text: I heard Dana's address is 55 Pine Rd, Austin.
+    message: What address do you have for me?
   checks:
-    - {type: contains, path: memory.address.current, value: "9 Oak Ave", critical: true}
-    - {type: contains, path: memory.address.disputed, value: "55 Pine"}
-    - {type: event_present, name: memory.conflict}
-    - {type: not_contains, path: reply, value: "Pine"}
-
+  - type: contains
+    path: memory.address.current
+    value: 9 Oak Ave
+    critical: true
+  - type: contains
+    path: memory.address.disputed
+    value: 55 Pine
+  - type: event_present
+    name: memory.conflict
+  - type: not_contains
+    path: reply
+    value: Pine
 - id: forget-means-forget
-  tags: [memory]
+  tags:
+  - memory
   input:
     customer: dana@example.com
     history:
-      - {id: m1, from: user, at: "2026-01-10", text: "My phone is 503-555-0142."}
-      - {id: m2, from: user, at: "2026-09-02", text: "Please forget my phone number, I don't want calls."}
-    message: "What phone do you have for me?"
+    - id: m1
+      from: user
+      at: '2026-01-10'
+      text: My phone is 503-555-0142.
+    - id: m2
+      from: user
+      at: '2026-09-02'
+      text: Please forget my phone number, I don't want calls.
+    message: What phone do you have for me?
   checks:
-    - {type: absent, path: memory.phone.current, critical: true}
-    - {type: contains, path: memory.phone.retracted, value: "555-0142"}
-    - {type: not_contains, path: reply, value: "555"}
-
+  - type: absent
+    path: memory.phone.current
+    critical: true
+  - type: contains
+    path: memory.phone.retracted
+    value: 555-0142
+  - type: not_contains
+    path: reply
+    value: '555'
 - id: temporary-address-while-valid
-  tags: [memory]
+  tags:
+  - memory
   input:
     customer: dana@example.com
-    now: "2026-10-08"
+    now: '2026-10-08'
     history:
-      - {id: m1, from: user, at: "2026-05-01", text: "My address is 9 Oak Ave, Denver."}
-      - {id: m2, from: user, at: "2026-10-05", text: "I'm traveling, ship it to Hotel Lumen, Seattle until 2026-10-10."}
-    message: "What address do you have for me?"
+    - id: m1
+      from: user
+      at: '2026-05-01'
+      text: My address is 9 Oak Ave, Denver.
+    - id: m2
+      from: user
+      at: '2026-10-05'
+      text: I'm traveling, ship it to Hotel Lumen, Seattle until 2026-10-10.
+    message: What address do you have for me?
   checks:
-    - {type: contains, path: memory.address.current, value: "Hotel Lumen", critical: true}
-    - {type: contains, path: reply, value: "until 2026-10-10"}
-
+  - type: contains
+    path: memory.address.current
+    value: Hotel Lumen
+    critical: true
+  - type: contains
+    path: reply
+    value: until 2026-10-10
 - id: temporary-address-expires
-  note: "Same history, a week later. The hotel must not become home."
-  tags: [memory]
+  note: Same history, a week later. The hotel must not become home.
+  tags:
+  - memory
   input:
     customer: dana@example.com
-    now: "2026-10-14"
+    now: '2026-10-14'
     history:
-      - {id: m1, from: user, at: "2026-05-01", text: "My address is 9 Oak Ave, Denver."}
-      - {id: m2, from: user, at: "2026-10-05", text: "I'm traveling, ship it to Hotel Lumen, Seattle until 2026-10-10."}
-    message: "What address do you have for me?"
+    - id: m1
+      from: user
+      at: '2026-05-01'
+      text: My address is 9 Oak Ave, Denver.
+    - id: m2
+      from: user
+      at: '2026-10-05'
+      text: I'm traveling, ship it to Hotel Lumen, Seattle until 2026-10-10.
+    message: What address do you have for me?
   checks:
-    - {type: contains, path: memory.address.current, value: "9 Oak Ave", critical: true}
-    - {type: not_contains, path: reply, value: "Lumen"}
-
+  - type: contains
+    path: memory.address.current
+    value: 9 Oak Ave
+    critical: true
+  - type: not_contains
+    path: reply
+    value: Lumen
 - id: old-fact-is-flagged-stale
-  tags: [memory]
+  tags:
+  - memory
   input:
     customer: dana@example.com
     history:
-      - {id: m1, from: user, at: "2024-06-01", text: "My address is 12 Elm St, Portland."}
-    message: "What address do you have for me?"
+    - id: m1
+      from: user
+      at: '2024-06-01'
+      text: My address is 12 Elm St, Portland.
+    message: What address do you have for me?
   checks:
-    - {type: equals, path: memory.address.stale, value: true, critical: true}
-    - {type: contains, path: reply, value: "still right"}
-
+  - type: equals
+    path: memory.address.stale
+    value: true
+    critical: true
+  - type: contains
+    path: reply
+    value: still right
 - id: repeat-reinforces-not-duplicates
-  tags: [memory]
+  tags:
+  - memory
   input:
     customer: dana@example.com
     history:
-      - {id: m1, from: user, at: "2026-02-01", text: "My address is 9 Oak Ave, Denver."}
-      - {id: m2, from: user, at: "2026-08-01", text: "Address is 9 Oak Ave, Denver."}
-    message: "What address do you have for me?"
+    - id: m1
+      from: user
+      at: '2026-02-01'
+      text: My address is 9 Oak Ave, Denver.
+    - id: m2
+      from: user
+      at: '2026-08-01'
+      text: Address is 9 Oak Ave, Denver.
+    message: What address do you have for me?
   checks:
-    - {type: absent, path: memory.address.superseded, critical: true}
-    - {type: event_present, name: memory.reinforce}
-
+  - type: absent
+    path: memory.address.superseded
+    critical: true
+  - type: event_present
+    name: memory.reinforce
 - id: unsure-customer-does-not-overwrite
-  note: "Hearsay in the customer's OWN message still lowers authority."
-  tags: [memory]
+  note: Hearsay in the customer's OWN message still lowers authority.
+  tags:
+  - memory
   input:
     customer: dana@example.com
     history:
-      - {id: m1, from: user, at: "2026-05-01", text: "My address is 9 Oak Ave, Denver."}
-      - {id: m2, from: user, at: "2026-09-01", text: "Not sure but my roommate said my address is now 4 Birch Ln?"}
-    message: "What address do you have for me?"
+    - id: m1
+      from: user
+      at: '2026-05-01'
+      text: My address is 9 Oak Ave, Denver.
+    - id: m2
+      from: user
+      at: '2026-09-01'
+      text: Not sure but my roommate said my address is now 4 Birch Ln?
+    message: What address do you have for me?
   checks:
-    - {type: contains, path: memory.address.current, value: "9 Oak Ave", critical: true}
-
+  - type: contains
+    path: memory.address.current
+    value: 9 Oak Ave
+    critical: true
 - id: nothing-on-file-says-so
-  tags: [memory]
-  input: {customer: lee@example.com, message: "What address do you have for me?"}
+  tags:
+  - memory
+  input:
+    customer: lee@example.com
+    message: What address do you have for me?
   checks:
-    - {type: absent, path: memory.address.current, critical: true}
-    - {type: contains, path: reply, value: "don't have"}
+  - type: absent
+    path: memory.address.current
+    critical: true
+  - type: contains
+    path: reply
+    value: don't have
+- id: forget-one-fact-keeps-the-others
+  tags:
+  - memory
+  input:
+    customer: dana@example.com
+    history:
+    - id: m1
+      from: user
+      at: '2026-03-01'
+      text: My address is 9 Oak Ave, Denver.
+    - id: m2
+      from: user
+      at: '2026-03-02'
+      text: My phone is 503-555-0142.
+    - id: m3
+      from: user
+      at: '2026-09-02'
+      text: Please forget my phone number.
+    message: What address do you have for me?
+  checks:
+  - type: contains
+    path: memory.address.current
+    value: 9 Oak
+    critical: true
+  - type: absent
+    path: memory.phone.current

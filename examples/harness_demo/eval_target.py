@@ -38,7 +38,9 @@ from harness.ledger import Ledger                      # noqa: E402
 from harness import rules                              # noqa: E402
 
 PRICING = {"gpt-4o-mini": {"input": 0.15, "output": 0.60}, "gpt-4o": {"input": 2.50, "output": 10.00},
-           "claude-haiku-4-5": {"input": 1.0, "output": 5.0}}
+           "claude-haiku-4-5": {"input": 1.0, "output": 5.0},
+           # Notional price for the offline stand-in, so cost tracking is tested too.
+           "rules": {"input": 0.10, "output": 0.40}}
 
 
 def _provider(spec: str):
@@ -58,9 +60,11 @@ def _router(params: dict, log: EventLog) -> Router:
     fault = params.get("fault", "none")
     if fault in ("stall_primary", "all_down"):
         d = float(params.get("deadline_s", 1.0))
-        primary = Faulty(primary, "stall", stall_s=d * 3, deadline_s=d)
+        primary = Faulty(primary, "stall", stall_s=d * 30, deadline_s=d)   # a missed deadline costs real time
     elif fault == "quota_primary":
         primary = Faulty(primary, "quota")
+    elif fault == "server_error_primary":
+        primary = Faulty(primary, "server_error")
     elif fault == "billing_400_primary":
         primary = Faulty(primary, "billing_400")
     elif fault == "bad_request":
@@ -87,7 +91,40 @@ def _drive(graph, payload, config, nodes: list):
     return final, interrupted
 
 
+def replay(inp: dict, params: dict) -> Result:
+    """Memory over time. For each checkpoint date, run the agent as it would
+    have run THEN (only the history up to that date) and ask what it has on
+    file. Separately, rebuild memory from the whole history and ask the record
+    what it believed on that date. A good memory gets both right, and they agree."""
+    from harness.memory import Memory
+    timeline = inp["timeline"]
+    points, events, usage_in, usage_out = [], [], 0, 0
+    for cp in inp["checkpoints"]:
+        seen = [m for m in timeline if m["at"] <= cp["at"]]
+        r = run({"customer": inp["customer"], "now": cp["at"], "history": seen,
+                 "message": f"What {cp['attribute']} do you have for me?"}, params)
+        view = r.output["memory"][cp["attribute"]]
+        points.append({"at": cp["at"], "attribute": cp["attribute"], "replay": view["current"],
+                       "stale": view["stale"], "reply": r.output["reply"]})
+        events += r.events
+        usage_in += r.usage.get("input_tokens", 0)
+        usage_out += r.usage.get("output_tokens", 0)
+    full = run({"customer": inp["customer"], "now": max(m["at"] for m in timeline),
+                "history": timeline, "message": "Thanks!"}, params)
+    facts = full.output.get("_facts") or []
+    mem = Memory(facts, EventLog())
+    for p in points:
+        f = mem.as_of(inp["customer"], p["attribute"], p["at"])
+        p["as_of"] = f["value"] if f else None
+        p["agree"] = (p["as_of"] or "") == (p["replay"] or "")
+    return Result(output={"checkpoints": points, "all_agree": all(p["agree"] for p in points)},
+                  usage={"input_tokens": usage_in, "output_tokens": usage_out}, events=events,
+                  trajectory=[f"{p['at']}:{p['replay']}" for p in points])
+
+
 def run(inp: dict, params: dict) -> Result:
+    if "timeline" in inp:
+        return replay(inp, params)
     # A case can pin scenario knobs (a fault, a crash point, a compromised
     # model): those are part of the test, not something the run varies.
     params = {**params, **(inp.get("scenario") or {})}
@@ -154,7 +191,10 @@ def run(inp: dict, params: dict) -> Result:
                    "refunded": {o: ledger.refunded_total(o) for o in ("A1001", "A1002", "A1003", "A1004", "A1005")
                                 if ledger.refunded_total(o)}},
         "memory": {a: _fact_view(final, inp, a) for a in ("address", "phone")},
+        "_facts": final.get("facts") or [],
         "served_by": sorted(set(served)),
+        "cost_usd": round(sum(e["attrs"].get("cost_usd", 0) for e in log.events
+                              if e["name"] == "gen_ai.client.operation"), 8),
         "restarts": restarts,
     }
     usage = {"input_tokens": sum(e["attrs"].get("gen_ai.usage.input_tokens", 0) for e in log.events),

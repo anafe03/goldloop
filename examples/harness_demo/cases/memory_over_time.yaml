@@ -1,0 +1,223 @@
+# Memory over time: replay a customer's history and ask at several dates.
+# Idea: LongMemEval (ICLR 2025) tests temporal reasoning and knowledge updates.
+- id: ten-months-of-address-changes
+  tags:
+  - memory
+  - memory-over-time
+  note: Move, hotel stay, rumor, real move. Each date must see only what was true then.
+  input:
+    customer: dana@example.com
+    timeline:
+    - id: m1
+      at: '2025-11-02'
+      from: user
+      text: My address is 12 Elm St, Portland.
+    - id: m2
+      at: '2026-03-15'
+      from: user
+      text: I'm traveling, ship it to Hotel Lumen, Seattle until 2026-03-20.
+    - id: m3
+      at: '2026-05-01'
+      from: third_party
+      text: I heard Dana's address is 55 Pine Rd, Austin.
+    - id: m4
+      at: '2026-06-10'
+      from: user
+      text: We moved! Address is now 9 Oak Ave, Denver.
+    checkpoints:
+    - at: '2026-01-10'
+      attribute: address
+    - at: '2026-03-18'
+      attribute: address
+    - at: '2026-03-25'
+      attribute: address
+    - at: '2026-05-15'
+      attribute: address
+    - at: '2026-07-01'
+      attribute: address
+    - at: '2027-08-01'
+      attribute: address
+  checks:
+  - type: contains
+    path: checkpoints.0.replay
+    value: 12 Elm
+    name: 2026-01-10 address
+  - type: contains
+    path: checkpoints.0.as_of
+    value: 12 Elm
+    name: '2026-01-10 address: record agrees'
+  - type: equals
+    path: checkpoints.0.stale
+    value: false
+    name: 2026-01-10 stale=False
+  - type: contains
+    path: checkpoints.1.replay
+    value: Hotel Lumen
+    name: 2026-03-18 address
+  - type: contains
+    path: checkpoints.1.as_of
+    value: Hotel Lumen
+    name: '2026-03-18 address: record agrees'
+  - type: contains
+    path: checkpoints.2.replay
+    value: 12 Elm
+    name: 2026-03-25 address
+  - type: contains
+    path: checkpoints.2.as_of
+    value: 12 Elm
+    name: '2026-03-25 address: record agrees'
+  - type: contains
+    path: checkpoints.3.replay
+    value: 12 Elm
+    name: 2026-05-15 address
+  - type: contains
+    path: checkpoints.3.as_of
+    value: 12 Elm
+    name: '2026-05-15 address: record agrees'
+  - type: contains
+    path: checkpoints.4.replay
+    value: 9 Oak
+    name: 2026-07-01 address
+  - type: contains
+    path: checkpoints.4.as_of
+    value: 9 Oak
+    name: '2026-07-01 address: record agrees'
+  - type: equals
+    path: checkpoints.4.stale
+    value: false
+    name: 2026-07-01 stale=False
+  - type: contains
+    path: checkpoints.5.replay
+    value: 9 Oak
+    name: 2027-08-01 address
+  - type: contains
+    path: checkpoints.5.as_of
+    value: 9 Oak
+    name: '2027-08-01 address: record agrees'
+  - type: equals
+    path: checkpoints.5.stale
+    value: true
+    name: 2027-08-01 stale=True
+  - type: equals
+    path: all_agree
+    value: true
+    critical: true
+    name: what it said then = what the record says it believed then
+- id: phone-forgotten-then-given-again
+  tags:
+  - memory
+  - memory-over-time
+  note: A retraction holds until the customer gives the fact again, and the record keeps both eras.
+  input:
+    customer: dana@example.com
+    timeline:
+    - id: m1
+      at: '2026-01-05'
+      from: user
+      text: My phone is 503-555-0142.
+    - id: m2
+      at: '2026-04-20'
+      from: user
+      text: Please forget my phone number, I don't want calls.
+    - id: m3
+      at: '2026-08-30'
+      from: user
+      text: OK you can call me now, my phone is 720-555-0199.
+    checkpoints:
+    - at: '2026-02-01'
+      attribute: phone
+    - at: '2026-05-01'
+      attribute: phone
+    - at: '2026-09-15'
+      attribute: phone
+  checks:
+  - type: contains
+    path: checkpoints.0.replay
+    value: 555-0142
+    name: 2026-02-01 phone
+  - type: contains
+    path: checkpoints.0.as_of
+    value: 555-0142
+    name: '2026-02-01 phone: record agrees'
+  - type: absent
+    path: checkpoints.1.replay
+    name: '2026-05-01 phone: nothing on file'
+  - type: absent
+    path: checkpoints.1.as_of
+    name: '2026-05-01 phone: record agrees'
+  - type: contains
+    path: checkpoints.2.replay
+    value: 555-0199
+    name: 2026-09-15 phone
+  - type: contains
+    path: checkpoints.2.as_of
+    value: 555-0199
+    name: '2026-09-15 phone: record agrees'
+  - type: equals
+    path: all_agree
+    value: true
+    critical: true
+    name: what it said then = what the record says it believed then
+- id: address-and-phone-in-one-history
+  tags:
+  - memory
+  - memory-over-time
+  note: 'Two kinds of fact in one history: the record must never answer one with the other.'
+  input:
+    customer: dana@example.com
+    timeline:
+    - id: m1
+      at: '2025-10-05'
+      from: user
+      text: My address is 12 Elm St, Portland.
+    - id: m2
+      at: '2026-02-01'
+      from: user
+      text: My phone is 503-555-0142.
+    - id: m3
+      at: '2026-07-01'
+      from: user
+      text: Please forget my phone number.
+    checkpoints:
+    - at: '2026-01-01'
+      attribute: phone
+    - at: '2026-03-01'
+      attribute: address
+    - at: '2026-03-01'
+      attribute: phone
+    - at: '2026-08-01'
+      attribute: phone
+    - at: '2026-10-05'
+      attribute: address
+    - at: '2026-10-06'
+      attribute: address
+  checks:
+  - type: absent
+    path: checkpoints.0.replay
+    name: no phone before it was given
+  - type: absent
+    path: checkpoints.0.as_of
+    name: 'record agrees: no phone yet'
+  - type: contains
+    path: checkpoints.1.as_of
+    value: 12 Elm
+    name: address, not phone
+  - type: contains
+    path: checkpoints.2.as_of
+    value: 555-0142
+    name: phone, not address
+  - type: absent
+    path: checkpoints.3.as_of
+    name: phone forgotten, address untouched
+  - type: equals
+    path: checkpoints.4.stale
+    value: false
+    name: '365 days: still fresh'
+  - type: equals
+    path: checkpoints.5.stale
+    value: true
+    name: '366 days: stale'
+  - type: equals
+    path: all_agree
+    value: true
+    critical: true

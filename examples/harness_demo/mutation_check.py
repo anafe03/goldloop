@@ -153,6 +153,16 @@ def guess_instead_of_asking():
     return patched(rules, "plan_factory", factory)
 
 
+def history_without_dates():
+    """The record keeps only current status: 'what did we believe on March 18'
+    gets answered with today's facts."""
+    def as_of(self, subject, attribute, at):
+        live = [f for f in self.facts if f["subject"] == subject and f["attribute"] == attribute
+                and f["status"] == "active"]
+        return max(live, key=lambda f: f["observed_at"]) if live else None
+    return patched(memory.Memory, "as_of", as_of)
+
+
 def naive_ledger():
     return contextlib.nullcontext({"idempotent": False})
 
@@ -171,6 +181,7 @@ MUTATIONS = [
     ("no circuit breaker", _cooldown_zero, "routing"),
     ("billing 400 read as a bad request", status_code_only_classifier, "routing"),
     ("guess instead of asking", guess_instead_of_asking, "restraint"),
+    ("history forgets when facts changed", history_without_dates, "memory-over-time"),
 ]
 
 

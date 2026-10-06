@@ -1,0 +1,1517 @@
+[
+ {
+  "file": "policy.py",
+  "line": 39,
+  "change": "500.0 -> 501.0",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "policy.py",
+  "line": 47,
+  "change": "Eq -> NotEq",
+  "killed": true,
+  "caught_by": [
+   "approval-survives-the-restart",
+   "approved-refund-runs-once",
+   "crash-after-refund-refunds-once",
+   "crash-between-two-refunds",
+   "injection-with-a-compromised-model",
+   "refund-waits-for-a-person",
+   "side-effect-has-a-paper-trail"
+  ]
+ },
+ {
+  "file": "policy.py",
+  "line": 49,
+  "change": "Eq -> NotEq",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "policy.py",
+  "line": 64,
+  "change": "True -> False",
+  "killed": true,
+  "caught_by": [
+   "approval-survives-the-restart",
+   "approved-refund-runs-once",
+   "crash-after-refund-refunds-once",
+   "crash-between-two-refunds",
+   "over-the-limit-even-with-approval",
+   "refund-waits-for-a-person",
+   "side-effect-has-a-paper-trail"
+  ]
+ },
+ {
+  "file": "policy.py",
+  "line": 70,
+  "change": "And -> Or",
+  "killed": true,
+  "caught_by": [
+   "a-person-says-no",
+   "approval-is-scoped-to-the-amount",
+   "approval-survives-the-restart",
+   "approved-refund-runs-once",
+   "clear-request-is-not-over-questioned",
+   "crash-after-refund-refunds-once",
+   "crash-between-two-refunds",
+   "empty-account-400-fails-over",
+   "injection-html-comment",
+   "injection-in-forwarded-text",
+   "injection-in-quoted-chain",
+   "injection-role-spoof",
+   "injection-third-party-request",
+   "moved-supersedes-old-address",
+   "nothing-on-file-says-so",
+   "old-fact-is-flagged-stale",
+   "over-the-limit-even-with-approval",
+   "primary-out-of-quota-fail-over",
+   "primary-stalls-fail-over",
+   "refund-waits-for-a-person",
+   "side-effect-has-a-paper-trail",
+   "temporary-address-while-valid"
+  ]
+ },
+ {
+  "file": "policy.py",
+  "line": 84,
+  "change": "And -> Or",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "policy.py",
+  "line": 70,
+  "change": "NotEq -> Eq",
+  "killed": true,
+  "caught_by": [
+   "injection-with-a-compromised-model",
+   "not-your-order-even-with-approval"
+  ]
+ },
+ {
+  "file": "policy.py",
+  "line": 70,
+  "change": "drop `not`",
+  "killed": true,
+  "caught_by": [
+   "a-person-says-no",
+   "approval-is-scoped-to-the-amount",
+   "approval-survives-the-restart",
+   "approved-refund-runs-once",
+   "clear-request-is-not-over-questioned",
+   "crash-after-refund-refunds-once",
+   "crash-between-two-refunds",
+   "empty-account-400-fails-over",
+   "injection-html-comment",
+   "injection-in-forwarded-text",
+   "injection-in-quoted-chain",
+   "injection-role-spoof",
+   "injection-third-party-request",
+   "injection-with-a-compromised-model",
+   "moved-supersedes-old-address",
+   "nothing-on-file-says-so",
+   "old-fact-is-flagged-stale",
+   "over-the-limit-even-with-approval",
+   "primary-out-of-quota-fail-over",
+   "primary-stalls-fail-over",
+   "refund-waits-for-a-person",
+   "side-effect-has-a-paper-trail",
+   "temporary-address-while-valid"
+  ]
+ },
+ {
+  "file": "policy.py",
+  "line": 72,
+  "change": "Eq -> NotEq",
+  "killed": true,
+  "caught_by": [
+   "a-person-says-no",
+   "approval-is-scoped-to-the-amount",
+   "approval-survives-the-restart",
+   "approved-refund-runs-once",
+   "clear-request-is-not-over-questioned",
+   "crash-after-refund-refunds-once",
+   "crash-between-two-refunds",
+   "empty-account-400-fails-over",
+   "forbidden-stays-forbidden",
+   "injection-html-comment",
+   "injection-in-forwarded-text",
+   "injection-in-quoted-chain",
+   "injection-role-spoof",
+   "injection-third-party-request",
+   "injection-with-a-compromised-model",
+   "moved-supersedes-old-address",
+   "nothing-on-file-says-so",
+   "old-fact-is-flagged-stale",
+   "over-the-limit-even-with-approval",
+   "primary-out-of-quota-fail-over",
+   "primary-stalls-fail-over",
+   "refund-waits-for-a-person",
+   "side-effect-has-a-paper-trail",
+   "temporary-address-while-valid"
+  ]
+ },
+ {
+  "file": "policy.py",
+  "line": 84,
+  "change": "Eq -> NotEq",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "policy.py",
+  "line": 84,
+  "change": "Eq -> NotEq",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "policy.py",
+  "line": 75,
+  "change": "And -> Or",
+  "killed": true,
+  "caught_by": [
+   "a-person-says-no",
+   "approval-is-scoped-to-the-amount",
+   "approval-survives-the-restart",
+   "approved-refund-runs-once",
+   "crash-after-refund-refunds-once",
+   "crash-between-two-refunds",
+   "refund-waits-for-a-person",
+   "side-effect-has-a-paper-trail"
+  ]
+ },
+ {
+  "file": "policy.py",
+  "line": 75,
+  "change": "Eq -> NotEq",
+  "killed": true,
+  "caught_by": [
+   "over-the-limit-even-with-approval"
+  ]
+ },
+ {
+  "file": "policy.py",
+  "line": 75,
+  "change": "Gt -> LtE",
+  "killed": true,
+  "caught_by": [
+   "a-person-says-no",
+   "approval-is-scoped-to-the-amount",
+   "approval-survives-the-restart",
+   "approved-refund-runs-once",
+   "crash-after-refund-refunds-once",
+   "crash-between-two-refunds",
+   "over-the-limit-even-with-approval",
+   "refund-waits-for-a-person",
+   "side-effect-has-a-paper-trail"
+  ]
+ },
+ {
+  "file": "policy.py",
+  "line": 77,
+  "change": "And -> Or",
+  "killed": true,
+  "caught_by": [
+   "approval-survives-the-restart",
+   "approved-refund-runs-once",
+   "clear-request-is-not-over-questioned",
+   "crash-after-refund-refunds-once",
+   "crash-between-two-refunds",
+   "empty-account-400-fails-over",
+   "injection-html-comment",
+   "injection-in-forwarded-text",
+   "injection-in-quoted-chain",
+   "injection-role-spoof",
+   "injection-third-party-request",
+   "moved-supersedes-old-address",
+   "nothing-on-file-says-so",
+   "old-fact-is-flagged-stale",
+   "over-the-limit-even-with-approval",
+   "primary-out-of-quota-fail-over",
+   "primary-stalls-fail-over",
+   "refund-waits-for-a-person",
+   "side-effect-has-a-paper-trail",
+   "temporary-address-while-valid"
+  ]
+ },
+ {
+  "file": "policy.py",
+  "line": 74,
+  "change": "NotIn -> In",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "policy.py",
+  "line": 77,
+  "change": "Eq -> NotEq",
+  "killed": true,
+  "caught_by": [
+   "a-person-says-no",
+   "approval-is-scoped-to-the-amount",
+   "approval-survives-the-restart",
+   "approved-refund-runs-once",
+   "clear-request-is-not-over-questioned",
+   "crash-after-refund-refunds-once",
+   "crash-between-two-refunds",
+   "empty-account-400-fails-over",
+   "injection-html-comment",
+   "injection-in-forwarded-text",
+   "injection-in-quoted-chain",
+   "injection-role-spoof",
+   "injection-third-party-request",
+   "injection-with-a-compromised-model",
+   "moved-supersedes-old-address",
+   "nothing-on-file-says-so",
+   "old-fact-is-flagged-stale",
+   "over-the-limit-even-with-approval",
+   "primary-out-of-quota-fail-over",
+   "primary-stalls-fail-over",
+   "refund-waits-for-a-person",
+   "side-effect-has-a-paper-trail",
+   "temporary-address-while-valid"
+  ]
+ },
+ {
+  "file": "policy.py",
+  "line": 77,
+  "change": "NotIn -> In",
+  "killed": true,
+  "caught_by": [
+   "a-person-says-no",
+   "approval-is-scoped-to-the-amount",
+   "approval-survives-the-restart",
+   "approved-refund-runs-once",
+   "injection-with-a-compromised-model",
+   "refund-waits-for-a-person",
+   "side-effect-has-a-paper-trail"
+  ]
+ },
+ {
+  "file": "policy.py",
+  "line": 48,
+  "change": "0 -> 1",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "policy.py",
+  "line": 75,
+  "change": "0 -> 1",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "policy.py",
+  "line": 80,
+  "change": "Eq -> NotEq",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "ledger.py",
+  "line": 29,
+  "change": "129.0 -> 130.0",
+  "killed": true,
+  "caught_by": [
+   "approved-refund-runs-once",
+   "crash-after-refund-refunds-once",
+   "crash-between-two-refunds",
+   "refund-waits-for-a-person"
+  ]
+ },
+ {
+  "file": "ledger.py",
+  "line": 30,
+  "change": "89.5 -> 90.5",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "ledger.py",
+  "line": 31,
+  "change": "349.0 -> 350.0",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "ledger.py",
+  "line": 32,
+  "change": "39.0 -> 40.0",
+  "killed": true,
+  "caught_by": [
+   "approval-survives-the-restart",
+   "crash-between-two-refunds",
+   "side-effect-has-a-paper-trail"
+  ]
+ },
+ {
+  "file": "ledger.py",
+  "line": 33,
+  "change": "640.0 -> 641.0",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "ledger.py",
+  "line": 43,
+  "change": "True -> False",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "ledger.py",
+  "line": 69,
+  "change": "Eq -> NotEq",
+  "killed": true,
+  "caught_by": [
+   "approval-survives-the-restart",
+   "approved-refund-runs-once",
+   "crash-after-refund-refunds-once",
+   "crash-between-two-refunds",
+   "side-effect-has-a-paper-trail"
+  ]
+ },
+ {
+  "file": "ledger.py",
+  "line": 72,
+  "change": "Eq -> NotEq",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "ledger.py",
+  "line": 38,
+  "change": "True -> False",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "ledger.py",
+  "line": 39,
+  "change": "24 -> 25",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "ledger.py",
+  "line": 46,
+  "change": "False -> True",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "ledger.py",
+  "line": 78,
+  "change": "1 -> 2",
+  "killed": true,
+  "caught_by": [
+   "approval-survives-the-restart",
+   "crash-after-refund-refunds-once"
+  ]
+ },
+ {
+  "file": "ledger.py",
+  "line": 82,
+  "change": "Eq -> NotEq",
+  "killed": true,
+  "caught_by": [
+   "approved-refund-runs-once",
+   "crash-between-two-refunds"
+  ]
+ },
+ {
+  "file": "ledger.py",
+  "line": 61,
+  "change": "0 -> 1",
+  "killed": true,
+  "caught_by": [
+   "crash-after-refund-refunds-once",
+   "crash-between-two-refunds"
+  ]
+ },
+ {
+  "file": "ledger.py",
+  "line": 64,
+  "change": "True -> False",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "ledger.py",
+  "line": 70,
+  "change": "100000 -> 100001",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "ledger.py",
+  "line": 78,
+  "change": "Eq -> NotEq",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "ledger.py",
+  "line": 70,
+  "change": "1000 -> 1001",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "memory.py",
+  "line": 37,
+  "change": "3 -> 4",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "memory.py",
+  "line": 37,
+  "change": "3 -> 4",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "memory.py",
+  "line": 37,
+  "change": "2 -> 3",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "memory.py",
+  "line": 37,
+  "change": "1 -> 2",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "memory.py",
+  "line": 37,
+  "change": "0 -> 1",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "memory.py",
+  "line": 38,
+  "change": "365 -> 366",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "memory.py",
+  "line": 38,
+  "change": "730 -> 731",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "memory.py",
+  "line": 38,
+  "change": "180 -> 181",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "memory.py",
+  "line": 55,
+  "change": "0.9 -> 1.9",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "memory.py",
+  "line": 87,
+  "change": "0 -> 1",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "memory.py",
+  "line": 116,
+  "change": "drop `not`",
+  "killed": true,
+  "caught_by": [
+   "phone-forgotten-then-given-again",
+   "ten-months-of-address-changes"
+  ]
+ },
+ {
+  "file": "memory.py",
+  "line": 127,
+  "change": "drop `not`",
+  "killed": true,
+  "caught_by": [
+   "a-person-says-no",
+   "approval-is-scoped-to-the-amount",
+   "approval-survives-the-restart",
+   "approved-refund-runs-once",
+   "bare-cancel-asks-what",
+   "clear-request-is-not-over-questioned",
+   "crash-after-refund-refunds-once",
+   "crash-between-two-refunds",
+   "empty-account-400-fails-over",
+   "every-call-is-attributed",
+   "forbidden-stays-forbidden",
+   "forget-means-forget",
+   "hearsay-cannot-override",
+   "injection-html-comment",
+   "injection-in-forwarded-text",
+   "injection-in-quoted-chain",
+   "injection-role-spoof",
+   "injection-third-party-request",
+   "injection-with-a-compromised-model",
+   "moved-supersedes-old-address",
+   "not-your-order-even-with-approval",
+   "nothing-on-file-says-so",
+   "old-fact-is-flagged-stale",
+   "over-the-limit-even-with-approval",
+   "partial-refund-without-an-amount-asks-how-much",
+   "phone-forgotten-then-given-again",
+   "primary-out-of-quota-fail-over",
+   "primary-stalls-fail-over",
+   "reads-go-through-policy-too",
+   "refund-waits-for-a-person",
+   "refund-without-an-order-asks-which",
+   "side-effect-has-a-paper-trail",
+   "temporary-address-expires",
+   "temporary-address-while-valid",
+   "ten-months-of-address-changes",
+   "unsure-customer-does-not-overwrite"
+  ]
+ },
+ {
+  "file": "memory.py",
+  "line": 132,
+  "change": "Gt -> LtE",
+  "killed": true,
+  "caught_by": [
+   "old-fact-is-flagged-stale",
+   "ten-months-of-address-changes"
+  ]
+ },
+ {
+  "file": "memory.py",
+  "line": 89,
+  "change": "And -> Or",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "memory.py",
+  "line": 106,
+  "change": "Or -> And",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "memory.py",
+  "line": 108,
+  "change": "Gt -> LtE",
+  "killed": true,
+  "caught_by": [
+   "phone-forgotten-then-given-again",
+   "ten-months-of-address-changes"
+  ]
+ },
+ {
+  "file": "memory.py",
+  "line": 110,
+  "change": "And -> Or",
+  "killed": true,
+  "caught_by": [
+   "phone-forgotten-then-given-again",
+   "ten-months-of-address-changes"
+  ]
+ },
+ {
+  "file": "memory.py",
+  "line": 112,
+  "change": "And -> Or",
+  "killed": true,
+  "caught_by": [
+   "phone-forgotten-then-given-again",
+   "ten-months-of-address-changes"
+  ]
+ },
+ {
+  "file": "memory.py",
+  "line": 114,
+  "change": "Or -> And",
+  "killed": true,
+  "caught_by": [
+   "phone-forgotten-then-given-again",
+   "ten-months-of-address-changes"
+  ]
+ },
+ {
+  "file": "memory.py",
+  "line": 131,
+  "change": "Or -> And",
+  "killed": true,
+  "caught_by": [
+   "hearsay-cannot-override",
+   "moved-supersedes-old-address",
+   "old-fact-is-flagged-stale",
+   "phone-forgotten-then-given-again",
+   "temporary-address-expires",
+   "temporary-address-while-valid",
+   "ten-months-of-address-changes",
+   "unsure-customer-does-not-overwrite"
+  ]
+ },
+ {
+  "file": "memory.py",
+  "line": 42,
+  "change": "10 -> 11",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "memory.py",
+  "line": 51,
+  "change": "And -> Or",
+  "killed": true,
+  "caught_by": [
+   "temporary-address-expires",
+   "ten-months-of-address-changes"
+  ]
+ },
+ {
+  "file": "memory.py",
+  "line": 59,
+  "change": "0 -> 1",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "memory.py",
+  "line": 69,
+  "change": "Gt -> LtE",
+  "killed": true,
+  "caught_by": [
+   "hearsay-cannot-override",
+   "moved-supersedes-old-address",
+   "ten-months-of-address-changes",
+   "unsure-customer-does-not-overwrite"
+  ]
+ },
+ {
+  "file": "memory.py",
+  "line": 89,
+  "change": "Eq -> NotEq",
+  "killed": true,
+  "caught_by": [
+   "forget-means-forget",
+   "phone-forgotten-then-given-again"
+  ]
+ },
+ {
+  "file": "memory.py",
+  "line": 89,
+  "change": "Eq -> NotEq",
+  "killed": true,
+  "caught_by": [
+   "forget-means-forget",
+   "phone-forgotten-then-given-again"
+  ]
+ },
+ {
+  "file": "memory.py",
+  "line": 89,
+  "change": "Eq -> NotEq",
+  "killed": true,
+  "caught_by": [
+   "forget-means-forget",
+   "phone-forgotten-then-given-again"
+  ]
+ },
+ {
+  "file": "memory.py",
+  "line": 90,
+  "change": "GtE -> Lt",
+  "killed": true,
+  "caught_by": [
+   "forget-means-forget",
+   "phone-forgotten-then-given-again"
+  ]
+ },
+ {
+  "file": "memory.py",
+  "line": 93,
+  "change": "1 -> 2",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "memory.py",
+  "line": 106,
+  "change": "NotEq -> Eq",
+  "killed": true,
+  "caught_by": [
+   "phone-forgotten-then-given-again",
+   "ten-months-of-address-changes"
+  ]
+ },
+ {
+  "file": "memory.py",
+  "line": 106,
+  "change": "NotEq -> Eq",
+  "killed": true,
+  "caught_by": [
+   "phone-forgotten-then-given-again",
+   "ten-months-of-address-changes"
+  ]
+ },
+ {
+  "file": "memory.py",
+  "line": 106,
+  "change": "Eq -> NotEq",
+  "killed": true,
+  "caught_by": [
+   "phone-forgotten-then-given-again",
+   "ten-months-of-address-changes"
+  ]
+ },
+ {
+  "file": "memory.py",
+  "line": 107,
+  "change": "False -> True",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "memory.py",
+  "line": 109,
+  "change": "False -> True",
+  "killed": true,
+  "caught_by": [
+   "phone-forgotten-then-given-again",
+   "ten-months-of-address-changes"
+  ]
+ },
+ {
+  "file": "memory.py",
+  "line": 110,
+  "change": "LtE -> Gt",
+  "killed": true,
+  "caught_by": [
+   "ten-months-of-address-changes"
+  ]
+ },
+ {
+  "file": "memory.py",
+  "line": 111,
+  "change": "False -> True",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "memory.py",
+  "line": 112,
+  "change": "LtE -> Gt",
+  "killed": true,
+  "caught_by": [
+   "phone-forgotten-then-given-again"
+  ]
+ },
+ {
+  "file": "memory.py",
+  "line": 113,
+  "change": "False -> True",
+  "killed": true,
+  "caught_by": [
+   "phone-forgotten-then-given-again"
+  ]
+ },
+ {
+  "file": "memory.py",
+  "line": 114,
+  "change": "drop `not`",
+  "killed": true,
+  "caught_by": [
+   "phone-forgotten-then-given-again",
+   "ten-months-of-address-changes"
+  ]
+ },
+ {
+  "file": "memory.py",
+  "line": 114,
+  "change": "GtE -> Lt",
+  "killed": true,
+  "caught_by": [
+   "ten-months-of-address-changes"
+  ]
+ },
+ {
+  "file": "memory.py",
+  "line": 124,
+  "change": "And -> Or",
+  "killed": true,
+  "caught_by": [
+   "forget-means-forget",
+   "phone-forgotten-then-given-again",
+   "temporary-address-expires",
+   "ten-months-of-address-changes"
+  ]
+ },
+ {
+  "file": "memory.py",
+  "line": 132,
+  "change": "10000 -> 10001",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "memory.py",
+  "line": 133,
+  "change": "True -> False",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "memory.py",
+  "line": 51,
+  "change": "Eq -> NotEq",
+  "killed": true,
+  "caught_by": [
+   "hearsay-cannot-override",
+   "moved-supersedes-old-address",
+   "repeat-reinforces-not-duplicates"
+  ]
+ },
+ {
+  "file": "memory.py",
+  "line": 51,
+  "change": "Eq -> NotEq",
+  "killed": true,
+  "caught_by": [
+   "hearsay-cannot-override",
+   "moved-supersedes-old-address",
+   "repeat-reinforces-not-duplicates"
+  ]
+ },
+ {
+  "file": "memory.py",
+  "line": 52,
+  "change": "Eq -> NotEq",
+  "killed": true,
+  "caught_by": [
+   "hearsay-cannot-override",
+   "moved-supersedes-old-address",
+   "repeat-reinforces-not-duplicates"
+  ]
+ },
+ {
+  "file": "memory.py",
+  "line": 52,
+  "change": "Eq -> NotEq",
+  "killed": true,
+  "caught_by": [
+   "hearsay-cannot-override",
+   "moved-supersedes-old-address",
+   "repeat-reinforces-not-duplicates",
+   "temporary-address-expires",
+   "ten-months-of-address-changes"
+  ]
+ },
+ {
+  "file": "memory.py",
+  "line": 57,
+  "change": "8 -> 9",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "memory.py",
+  "line": 63,
+  "change": "Eq -> NotEq",
+  "killed": true,
+  "caught_by": [
+   "hearsay-cannot-override",
+   "moved-supersedes-old-address",
+   "repeat-reinforces-not-duplicates",
+   "ten-months-of-address-changes"
+  ]
+ },
+ {
+  "file": "memory.py",
+  "line": 124,
+  "change": "Eq -> NotEq",
+  "killed": true,
+  "caught_by": [
+   "hearsay-cannot-override",
+   "moved-supersedes-old-address",
+   "old-fact-is-flagged-stale",
+   "phone-forgotten-then-given-again",
+   "temporary-address-expires",
+   "temporary-address-while-valid",
+   "ten-months-of-address-changes",
+   "unsure-customer-does-not-overwrite"
+  ]
+ },
+ {
+  "file": "memory.py",
+  "line": 124,
+  "change": "Eq -> NotEq",
+  "killed": true,
+  "caught_by": [
+   "hearsay-cannot-override",
+   "moved-supersedes-old-address",
+   "old-fact-is-flagged-stale",
+   "phone-forgotten-then-given-again",
+   "temporary-address-expires",
+   "temporary-address-while-valid",
+   "ten-months-of-address-changes",
+   "unsure-customer-does-not-overwrite"
+  ]
+ },
+ {
+  "file": "memory.py",
+  "line": 125,
+  "change": "Eq -> NotEq",
+  "killed": true,
+  "caught_by": [
+   "forget-means-forget",
+   "hearsay-cannot-override",
+   "moved-supersedes-old-address",
+   "old-fact-is-flagged-stale",
+   "phone-forgotten-then-given-again",
+   "temporary-address-expires",
+   "temporary-address-while-valid",
+   "ten-months-of-address-changes",
+   "unsure-customer-does-not-overwrite"
+  ]
+ },
+ {
+  "file": "memory.py",
+  "line": 125,
+  "change": "LtE -> Gt",
+  "killed": true,
+  "caught_by": [
+   "hearsay-cannot-override",
+   "moved-supersedes-old-address",
+   "old-fact-is-flagged-stale",
+   "phone-forgotten-then-given-again",
+   "temporary-address-expires",
+   "temporary-address-while-valid",
+   "ten-months-of-address-changes",
+   "unsure-customer-does-not-overwrite"
+  ]
+ },
+ {
+  "file": "memory.py",
+  "line": 126,
+  "change": "Or -> And",
+  "killed": true,
+  "caught_by": [
+   "hearsay-cannot-override",
+   "moved-supersedes-old-address",
+   "old-fact-is-flagged-stale",
+   "phone-forgotten-then-given-again",
+   "temporary-address-expires",
+   "temporary-address-while-valid",
+   "ten-months-of-address-changes",
+   "unsure-customer-does-not-overwrite"
+  ]
+ },
+ {
+  "file": "memory.py",
+  "line": 128,
+  "change": "False -> True",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "memory.py",
+  "line": 90,
+  "change": "0 -> 1",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "memory.py",
+  "line": 126,
+  "change": "drop `not`",
+  "killed": true,
+  "caught_by": [
+   "hearsay-cannot-override",
+   "moved-supersedes-old-address",
+   "old-fact-is-flagged-stale",
+   "phone-forgotten-then-given-again",
+   "temporary-address-expires",
+   "temporary-address-while-valid",
+   "ten-months-of-address-changes",
+   "unsure-customer-does-not-overwrite"
+  ]
+ },
+ {
+  "file": "memory.py",
+  "line": 126,
+  "change": "GtE -> Lt",
+  "killed": true,
+  "caught_by": [
+   "temporary-address-expires",
+   "temporary-address-while-valid",
+   "ten-months-of-address-changes"
+  ]
+ },
+ {
+  "file": "memory.py",
+  "line": 73,
+  "change": "0 -> 1",
+  "killed": true,
+  "caught_by": [
+   "hearsay-cannot-override",
+   "ten-months-of-address-changes",
+   "unsure-customer-does-not-overwrite"
+  ]
+ },
+ {
+  "file": "memory.py",
+  "line": 74,
+  "change": "0 -> 1",
+  "killed": true,
+  "caught_by": [
+   "hearsay-cannot-override",
+   "ten-months-of-address-changes",
+   "unsure-customer-does-not-overwrite"
+  ]
+ },
+ {
+  "file": "inference.py",
+  "line": 43,
+  "change": "429 -> 430",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "inference.py",
+  "line": 48,
+  "change": "400 -> 401",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "inference.py",
+  "line": 61,
+  "change": "Or -> And",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "inference.py",
+  "line": 73,
+  "change": "0 -> 1",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "inference.py",
+  "line": 74,
+  "change": "0 -> 1",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "inference.py",
+  "line": 141,
+  "change": "20.0 -> 21.0",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "inference.py",
+  "line": 142,
+  "change": "60.0 -> 61.0",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "inference.py",
+  "line": 31,
+  "change": "32 -> 33",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "inference.py",
+  "line": 61,
+  "change": "In -> NotIn",
+  "killed": true,
+  "caught_by": [
+   "bad-request-does-not-fail-over"
+  ]
+ },
+ {
+  "file": "inference.py",
+  "line": 61,
+  "change": "And -> Or",
+  "killed": true,
+  "caught_by": [
+   "bad-request-does-not-fail-over",
+   "primary-stalls-fail-over"
+  ]
+ },
+ {
+  "file": "inference.py",
+  "line": 62,
+  "change": "True -> False",
+  "killed": true,
+  "caught_by": [
+   "primary-out-of-quota-fail-over"
+  ]
+ },
+ {
+  "file": "inference.py",
+  "line": 64,
+  "change": "True -> False",
+  "killed": true,
+  "caught_by": [
+   "empty-account-400-fails-over"
+  ]
+ },
+ {
+  "file": "inference.py",
+  "line": 111,
+  "change": "Or -> And",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "inference.py",
+  "line": 118,
+  "change": "5.0 -> 6.0",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "inference.py",
+  "line": 121,
+  "change": "0 -> 1",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "inference.py",
+  "line": 124,
+  "change": "1 -> 2",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "inference.py",
+  "line": 125,
+  "change": "Eq -> NotEq",
+  "killed": true,
+  "caught_by": [
+   "bad-request-does-not-fail-over",
+   "empty-account-400-fails-over",
+   "primary-out-of-quota-fail-over",
+   "primary-stalls-fail-over"
+  ]
+ },
+ {
+  "file": "inference.py",
+  "line": 128,
+  "change": "Eq -> NotEq",
+  "killed": true,
+  "caught_by": [
+   "bad-request-does-not-fail-over",
+   "empty-account-400-fails-over",
+   "primary-out-of-quota-fail-over"
+  ]
+ },
+ {
+  "file": "inference.py",
+  "line": 130,
+  "change": "Eq -> NotEq",
+  "killed": true,
+  "caught_by": [
+   "bad-request-does-not-fail-over",
+   "empty-account-400-fails-over"
+  ]
+ },
+ {
+  "file": "inference.py",
+  "line": 132,
+  "change": "Eq -> NotEq",
+  "killed": true,
+  "caught_by": [
+   "bad-request-does-not-fail-over"
+  ]
+ },
+ {
+  "file": "inference.py",
+  "line": 149,
+  "change": "drop `not`",
+  "killed": true,
+  "caught_by": [
+   "a-person-says-no",
+   "approval-is-scoped-to-the-amount",
+   "approval-survives-the-restart",
+   "approved-refund-runs-once",
+   "bare-cancel-asks-what",
+   "clear-request-is-not-over-questioned",
+   "crash-after-refund-refunds-once",
+   "crash-between-two-refunds",
+   "empty-account-400-fails-over",
+   "every-call-is-attributed",
+   "forbidden-stays-forbidden",
+   "forget-means-forget",
+   "hearsay-cannot-override",
+   "injection-html-comment",
+   "injection-in-forwarded-text",
+   "injection-in-quoted-chain",
+   "injection-role-spoof",
+   "injection-third-party-request",
+   "injection-with-a-compromised-model",
+   "moved-supersedes-old-address",
+   "not-your-order-even-with-approval",
+   "nothing-on-file-says-so",
+   "old-fact-is-flagged-stale",
+   "over-the-limit-even-with-approval",
+   "partial-refund-without-an-amount-asks-how-much",
+   "phone-forgotten-then-given-again",
+   "primary-out-of-quota-fail-over",
+   "primary-stalls-fail-over",
+   "reads-go-through-policy-too",
+   "refund-waits-for-a-person",
+   "refund-without-an-order-asks-which",
+   "repeat-reinforces-not-duplicates",
+   "side-effect-has-a-paper-trail",
+   "temporary-address-expires",
+   "temporary-address-while-valid",
+   "ten-months-of-address-changes",
+   "unsure-customer-does-not-overwrite"
+  ]
+ },
+ {
+  "file": "inference.py",
+  "line": 61,
+  "change": "GtE -> Lt",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "inference.py",
+  "line": 92,
+  "change": "20 -> 21",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "inference.py",
+  "line": 185,
+  "change": "drop `not`",
+  "killed": true,
+  "caught_by": [
+   "bad-request-does-not-fail-over",
+   "empty-account-400-fails-over",
+   "primary-out-of-quota-fail-over",
+   "primary-stalls-fail-over"
+  ]
+ },
+ {
+  "file": "inference.py",
+  "line": 61,
+  "change": "402 -> 403",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "inference.py",
+  "line": 61,
+  "change": "408 -> 409",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "inference.py",
+  "line": 61,
+  "change": "429 -> 430",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "inference.py",
+  "line": 61,
+  "change": "500 -> 501",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "inference.py",
+  "line": 92,
+  "change": "4 -> 5",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "inference.py",
+  "line": 112,
+  "change": "0 -> 1",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "inference.py",
+  "line": 112,
+  "change": "0 -> 1",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "inference.py",
+  "line": 158,
+  "change": "Gt -> LtE",
+  "killed": true,
+  "caught_by": [
+   "a-person-says-no",
+   "approval-is-scoped-to-the-amount",
+   "approval-survives-the-restart",
+   "approved-refund-runs-once",
+   "bad-request-does-not-fail-over",
+   "bare-cancel-asks-what",
+   "clear-request-is-not-over-questioned",
+   "crash-after-refund-refunds-once",
+   "crash-between-two-refunds",
+   "empty-account-400-fails-over",
+   "every-call-is-attributed",
+   "forbidden-stays-forbidden",
+   "forget-means-forget",
+   "hearsay-cannot-override",
+   "injection-html-comment",
+   "injection-in-forwarded-text",
+   "injection-in-quoted-chain",
+   "injection-role-spoof",
+   "injection-third-party-request",
+   "injection-with-a-compromised-model",
+   "moved-supersedes-old-address",
+   "not-your-order-even-with-approval",
+   "nothing-on-file-says-so",
+   "old-fact-is-flagged-stale",
+   "over-the-limit-even-with-approval",
+   "partial-refund-without-an-amount-asks-how-much",
+   "phone-forgotten-then-given-again",
+   "primary-out-of-quota-fail-over",
+   "primary-stalls-fail-over",
+   "reads-go-through-policy-too",
+   "refund-waits-for-a-person",
+   "refund-without-an-order-asks-which",
+   "repeat-reinforces-not-duplicates",
+   "side-effect-has-a-paper-trail",
+   "temporary-address-expires",
+   "temporary-address-while-valid",
+   "ten-months-of-address-changes",
+   "unsure-customer-does-not-overwrite"
+  ]
+ },
+ {
+  "file": "inference.py",
+  "line": 165,
+  "change": "Or -> And",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "inference.py",
+  "line": 180,
+  "change": "1 -> 2",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "inference.py",
+  "line": 107,
+  "change": "1500 -> 1501",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "inference.py",
+  "line": 148,
+  "change": "In -> NotIn",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "inference.py",
+  "line": 151,
+  "change": "1000000.0 -> 1000001.0",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "inference.py",
+  "line": 151,
+  "change": "1000000.0 -> 1000001.0",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "inference.py",
+  "line": 180,
+  "change": "1000 -> 1001",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "inference.py",
+  "line": 193,
+  "change": "Or -> And",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "inference.py",
+  "line": 158,
+  "change": "0 -> 1",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "inference.py",
+  "line": 184,
+  "change": "1 -> 2",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "inference.py",
+  "line": 177,
+  "change": "1 -> 2",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "inference.py",
+  "line": 177,
+  "change": "1 -> 2",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "inference.py",
+  "line": 177,
+  "change": "1000 -> 1001",
+  "killed": false,
+  "caught_by": []
+ },
+ {
+  "file": "inference.py",
+  "line": 190,
+  "change": "1 -> 2",
+  "killed": true,
+  "caught_by": [
+   "empty-account-400-fails-over",
+   "primary-out-of-quota-fail-over",
+   "primary-stalls-fail-over"
+  ]
+ }
+]
