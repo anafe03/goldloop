@@ -42,19 +42,6 @@ The cheaper model holds the golden set at about 1/15th the cost.
 
 The fourth break, removing `critical` flags, changes nothing *on this data*: triage cases have at most one other check, so a wrong kind already fails at 0.5.
 
-## 2. Climb: a different domain, the same harness
-
-55 cases from three gold files. Rules mode (keyword classifier, no model):
-- mean 84.9%
-- pass^k 42/55
-- Every gold-set escalation passes.
-
-The misses are concentrated in the adversarial file, which was written to beat keywords:
-- 3 keyword-free security reports not escalated: `adv-05`, `adv-06`, `adv-11`
-- 1 negated incident ("we have NOT had a breach") falsely escalated: `adv-01`
-
-That's the gap the LLM path exists to close. The LLM mode was not run here.
-
 ## 3. Harness demo: 32 cases across the hard problems of agent harnesses
 
 **Offline (rules model):** 32/32. All 12 mutations of the harness are caught by the case written for each one.
@@ -76,7 +63,7 @@ Real-model cost for the entire day's harness-demo runs, including the tuner: wel
 
 ## What's not done
 
-- Climb in LLM mode, and a formal scorer-parity check against Climb's own `score_one`.
+- The bakery learning assistant on a real model (it runs on the offline stand-in so far).
 - An LLM judge calibration set (`goldloop calibrate` exists; no labels collected yet).
 - The promotion loop on real production feedback. It's built and tested on synthetic feedback; TM GO's correction store hasn't been wired to it.
 
