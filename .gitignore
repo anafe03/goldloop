@@ -9,3 +9,5 @@ __pycache__/
 **/.goldloop/report.html
 adopters/tmgo/.goldloop/
 adopters/tmgo/prompts/
+**/.goldloop/gm_*.json
+**/.goldloop/*_before.json

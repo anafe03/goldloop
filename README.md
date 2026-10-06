@@ -10,20 +10,30 @@ goldloop runs every case several times against any target: a Python function, a 
 ```bash
 pip install -e ".[dev,langgraph]" langgraph-checkpoint-sqlite
 cd examples/harness_demo
-goldloop run              # 32 cases, offline, free
-python mutation_check.py  # proves the suite can fail: 12 ways to break the harness, all caught
+goldloop run                    # 42 tests, offline, free
+python mutation_check.py        # 14 hand-written ways to break the harness, all caught
+python generated_mutations.py   # 147 machine-generated ones; survivors are listed
+cd ../learning_assistant && python learn.py   # learn from 7 corrections; 5 kept, 2 rejected
 ```
 
 ## What's in here
 
 | | |
 |---|---|
-| `src/goldloop/` | The harness: cases, checks, targets, runner, compare/gate, promote, tune, judge, CLI |
-| `examples/harness_demo/` | A small agent runtime that hits the hard problems of agent harnesses (trust boundary, crash-safe side effects, provider failover, memory with provenance, structured events), with cases proving each one |
-| `adopters/tmgo/` | TM GO's 61-case email-extraction golden set, graded from outside that repo |
-| `adopters/climb/` | Climb's 55-case ticket-routing gold set, from outside that repo |
+| `src/goldloop/` | The harness: cases, checks, targets, runner, compare/gate, scorecard, drift, promote, tune, judge, CLI |
+| `examples/harness_demo/` | **Customer support**: an agent that issues refunds under guardrails (permissions, crash-safe payments, provider failover, memory over time, restraint). 42 tests |
+| `examples/learning_assistant/` | **Small-business assistant**: drafts replies for a bakery and learns memories and skills from the owner's corrections. `learn.py` keeps a learned item only if it helps on unseen messages, breaks nothing, and stays inside the rules |
+| `adopters/tmgo/` | **Tour management**: TM GO's 61-test email-reading suite, graded from outside that repo |
 | `docs/DESIGN.md` | Every non-obvious decision and why |
 | `docs/RESULTS.md` | Real runs: numbers, what they found, and what turned out to be wrong |
+
+Three businesses, one scorecard:
+
+```bash
+goldloop scorecard --multi adopters/tmgo examples/harness_demo examples/learning_assistant
+```
+
+Every use case is graded on the same four questions: **Cost** ($ and tokens per task), **Reliability** (pass every run, with a 95% interval), **Risk** (guardrail tests that must hold), and **Change** (vs the approved baseline, with a significance test).
 
 ## A case
 
