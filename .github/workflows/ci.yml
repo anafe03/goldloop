@@ -1,0 +1,18 @@
+name: ci
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: pip install -e ".[dev,langgraph]" langgraph-checkpoint-sqlite
+      - run: pytest -q
+      # The harness demo, offline: lint the cases, gate the suite, and prove the
+      # suite can fail (every mutation of the harness must turn it red).
+      - working-directory: examples/harness_demo
+        run: |
+          goldloop lint
+          goldloop gate --baseline none
+          python mutation_check.py

@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+*.egg-info/
+.pytest_cache/
+# Runs hold model outputs and case inputs. Adopter runs can contain another
+# (private) repo's test data, so no run file is ever committed.
+**/.goldloop/runs/
+**/.goldloop/tune/
+**/.goldloop/report.html
+adopters/tmgo/.goldloop/
+adopters/tmgo/prompts/

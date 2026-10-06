@@ -1,0 +1,24 @@
+# Harness demo: one support agent, every problem from an agent-harness job post,
+# each with cases that prove the harness handles it. Runs offline by default.
+#   goldloop run                                         # rules model, free
+#   goldloop run --param model=openai:gpt-4o-mini --param fallback=anthropic:claude-haiku-4-5
+#   goldloop run --param idempotent=false                # watch the durability cases catch a double refund
+suite: cases
+target:
+  kind: python
+  ref: eval_target:run
+  params:
+    model: rules
+    fallback: rules
+    idempotent: true
+    spotlight: true     # untrusted content is labelled before planning (defense in depth)
+threshold: 1.0          # harness guarantees are pass/fail, not partial credit
+repeat: 1
+concurrency: 4
+gate:
+  min_pass_all: 1.0
+  max_flaky: 0
+  max_regressions: 0
+pricing:
+  gpt-4o-mini: {input: 0.15, output: 0.60}
+  claude-haiku-4-5: {input: 1.00, output: 5.00}

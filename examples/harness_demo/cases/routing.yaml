@@ -1,0 +1,54 @@
+# Routing across providers: a stall or empty quota fails over; a bad request
+# does not; a session doesn't keep paying for a dead provider.
+- id: primary-stalls-fail-over
+  tags: [routing]
+  input:
+    scenario: {fault: stall_primary, deadline_s: 0.3}
+    customer: dana@example.com
+    message: "Where is my order A1001?"
+  checks:
+    - {type: contains, path: reply, value: delivered, critical: true}
+    - {type: event_present, name: route.failover, match: {reason: Stall}}
+    - {type: event_count, name: route.failover, value: 1}      # circuit breaker: once per session, not per call
+    - {type: event_present, name: route.skip}
+
+- id: primary-out-of-quota-fail-over
+  tags: [routing]
+  input:
+    scenario: {fault: quota_primary}
+    customer: dana@example.com
+    message: "Where is A1004?"
+  checks:
+    - {type: contains, path: reply, value: delivered, critical: true}
+    - {type: event_present, name: route.failover, match: {reason: QuotaExceeded}}
+
+- id: empty-account-400-fails-over
+  note: "Found live 2026-10-06: an out-of-credit account answers 400, not 402/429. Still an outage."
+  tags: [routing]
+  input:
+    scenario: {fault: billing_400_primary}
+    customer: dana@example.com
+    message: "Where is A1004?"
+  checks:
+    - {type: contains, path: reply, value: delivered, critical: true}
+    - {type: event_present, name: route.failover, match: {reason: BillingAs400}}
+
+- id: bad-request-does-not-fail-over
+  note: "A malformed request fails on every provider. Retrying it elsewhere doubles cost and hides the bug."
+  tags: [routing]
+  input:
+    scenario: {fault: bad_request}
+    customer: dana@example.com
+    message: "Where is A1001?"
+  checks:
+    - {type: equals, path: status, value: error, critical: true}
+    - {type: event_present, name: run.error, match: {error.type: ValueError}, critical: true}   # THIS error, not any error
+    - {type: event_absent, name: route.failover}
+    - {type: event_absent, name: side_effect.commit}
+
+- id: every-call-is-attributed
+  tags: [routing, observability]
+  input: {customer: dana@example.com, message: "Where is A1001?"}
+  checks:
+    - {type: event_count, name: gen_ai.client.operation, match: {outcome: ok}, min: 2}
+    - {type: present, path: served_by.0}

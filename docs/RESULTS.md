@@ -1,0 +1,81 @@
+# Results
+
+Real runs from 2026-10-06. Models: gpt-4o-mini primary, gpt-4o fallback, unless noted. Run files stay local (one adopter's data comes from a private repo), so this page reports summaries.
+
+## 1. TM GO: the harness found a silent break in its own eval tooling
+
+TM GO's golden set is 61 adversarial venue email threads. It runs through `reply_prompt_eval.run_case`, the offline mirror of production's reply extraction.
+
+**First run: mean 29.0%, 17 of 61 cases passing.** About 44 cases didn't fail on quality. They crashed with `NameError: _SHAPE_RULES`. goldloop recorded them as target errors, not as low scores, which is what made the cause obvious.
+
+**Cause:** `reply_prompt_eval.py` copies production functions out of `api_routes.py` by AST, from a fixed list of names. Commit `25d0808` (2026-09-24) made `_validate_extraction` depend on new module-level names. A static walk of the dependencies finds **seven missing**:
+- `_SHAPE_RULES`
+- `_recover`
+- `_looks_like_email`
+- `_looks_like_phone`
+- `_EMAIL_IN_TEXT`
+- `_PHONE_IN_TEXT`
+- `_INBOUND_DOMAIN`
+
+TM GO's own offline tools (`reply_prompt_eval`, `prompt_tuner`, `model_matrix`) catch per-case exceptions and score them as 0. So they've been reporting a broken harness as low accuracy since 9/24.
+
+**Fix (for TM GO, not applied from here):** add those names to the `_extract` list in `scripts/reply_prompt_eval.py`, or better, compute the dependency closure the way `adopters/tmgo/adapter.py` does. The goldloop adapter patches them **in memory only** (`TMGO_PATCH_MISSING=0` reproduces the crash).
+
+**With the patch, 61 cases × 3 repeats:**
+- mean 94.6%
+- **pass^k 55/61 = 90.2%** (95% CI 80–95%)
+- 2 flaky cases a single run wouldn't show
+
+**Model matrix, 61 cases × 2 repeats:**
+
+| model | mean | pass^k | p95 | $/case |
+|---|---|---|---|---|
+| gpt-4o-mini | 95.7% | 93.4% | 1436 ms | $0.0002 |
+| gpt-4o | 94.0% | 91.8% | 1309 ms | $0.0031 |
+
+The cheaper model holds the golden set at about 1/15th the cost.
+
+**Scoring parity:** goldloop's checks and TM GO's own scorer were run over 178 synthetic outputs on all 61 cases (perfect, empty, partial, hallucinating, wrong kind, missed redirect). The pass/fail verdict matched every time. Deliberately breaking the port was caught in 3 of 4 ways:
+- dropping negative controls: 12 verdicts differed
+- `contains` changed to `equals`: 38 differed
+- dropping the kind check: 17 differed
+
+The fourth break, removing `critical` flags, changes nothing *on this data*: triage cases have at most one other check, so a wrong kind already fails at 0.5.
+
+## 2. Climb: a different domain, the same harness
+
+55 cases from three gold files. Rules mode (keyword classifier, no model):
+- mean 84.9%
+- pass^k 42/55
+- Every gold-set escalation passes.
+
+The misses are concentrated in the adversarial file, which was written to beat keywords:
+- 3 keyword-free security reports not escalated: `adv-05`, `adv-06`, `adv-11`
+- 1 negated incident ("we have NOT had a breach") falsely escalated: `adv-01`
+
+That's the gap the LLM path exists to close. The LLM mode was not run here.
+
+## 3. Harness demo: 32 cases across the hard problems of agent harnesses
+
+**Offline (rules model):** 32/32. All 12 mutations of the harness are caught by the case written for each one.
+
+**Real models.** The safety guarantees held on every real run: no side effect without approval, no refund on another customer's order, no forbidden action. What the real models exposed was everything else:
+
+| What happened | What it showed |
+|---|---|
+| 24 of 27 cases failed: `ModuleNotFoundError: langchain` | The router correctly did **not** fail over: a missing module isn't infra. **3 cases passed anyway**, made only of "X must not happen" checks. Led to `goldloop lint` and a liveness check in every such case. |
+| Fallback (Haiku) failed with "credit balance is too low" as a **400** | The status-code-only failover classifier missed it. Fixed, with a case and a mutation. **The Anthropic account used by TM GO's `.env` has no credit**, so TM GO's OpenAI → Anthropic failover may be dead in production. |
+| Injection cases: gpt-4o-mini passed 1 of 6 reliably | The planner got hijacked or gave up on the real question. The harness blocked every injected action. Helpfulness, not safety, was the failure. |
+| `goldloop tune` (holdout 30%) promoted a rewrite whose holdout mean **fell** 75% → 67% | A tuner bug: the holdout only checked case flips. Fixed, with a test that fails on the old rule. |
+| Re-run: tuner promoted a rewrite, p = 1.0 on train | Confirmation run, 32 × 3: 28 → 30 of 32, p = 0.50. Not significant. |
+| Three runs of the *same* config: 28, 29, 28 of 32 | Accidental A/A test (a zsh word-splitting slip made three configs identical) = the noise floor. goldloop now fails loudly on a missing prompt file instead of silently using the default. |
+| Spotlighting (untrusted content labelled before planning) made no difference | Traces showed the planner with the right intent and **no tool call**: context already held the order status, but the reply step only reported tool results. **A harness bug.** |
+| After the fix: original prompt **32/32**, tuned prompt 31/32 | The tuned prompt had been compensating for the harness bug. Rejected and kept in `prompts/rejected/`. Spotlighting ships on as defense in depth: neutral on these numbers, but it stops the compromised model from even attempting injected actions. |
+
+Real-model cost for the entire day's harness-demo runs, including the tuner: well under $1.
+
+## What's not done
+
+- Climb in LLM mode, and a formal scorer-parity check against Climb's own `score_one`.
+- An LLM judge calibration set (`goldloop calibrate` exists; no labels collected yet).
+- The promotion loop on real production feedback. It's built and tested on synthetic feedback; TM GO's correction store hasn't been wired to it.

@@ -1,0 +1,14 @@
+# Climb ticket intake on goldloop. Reads a climb-intake checkout at CLIMB_ROOT
+# and never writes to it. Rules mode is free and deterministic.
+suite: "adapter:cases"
+target:
+  kind: python
+  ref: adapter:run
+  params:
+    mode: rules          # rules | llm
+threshold: 0.8
+repeat: 1
+concurrency: 4
+gate:
+  min_mean: 0.8
+  max_regressions: 0

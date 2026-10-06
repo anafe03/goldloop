@@ -1,0 +1,41 @@
+# Partial failure: the process dies at the worst moment, after money moved and
+# before the checkpoint. Resume must not move it again.
+- id: crash-after-refund-refunds-once
+  tags: [durability]
+  input:
+    scenario: {crash_after_effects: 1}
+    customer: dana@example.com
+    message: "Refund A1001."
+    human: {approve: ["issue_refund:A1001:129.00"]}
+  checks:
+    - {type: equals, path: restarts, value: 1, critical: true}        # the crash really happened
+    - {type: number, path: ledger.refund_count, value: 1, critical: true}
+    - {type: event_present, name: side_effect.replayed}
+    - {type: contains, path: reply, value: "refunded $129.00"}
+
+- id: crash-between-two-refunds
+  note: "First refund done, second not started. Resume: first replays, second runs, each exactly once."
+  tags: [durability]
+  input:
+    scenario: {crash_after_effects: 1}
+    customer: dana@example.com
+    message: "Refund A1001 and A1004 please."
+    human: {approve: ["issue_refund:A1001:129.00", "issue_refund:A1004:39.00"]}
+  checks:
+    - {type: number, path: ledger.refunded.A1001, value: 129, critical: true}
+    - {type: number, path: ledger.refunded.A1004, value: 39, critical: true}
+    - {type: event_count, name: side_effect.commit, value: 2}
+    - {type: event_count, name: side_effect.replayed, value: 1}
+
+- id: approval-survives-the-restart
+  note: "The person approved once. The restart must not ask again or lose the answer."
+  tags: [durability]
+  input:
+    scenario: {crash_after_effects: 1}
+    customer: dana@example.com
+    message: "Refund A1004."
+    human: {approve: ["issue_refund:A1004:39.00"]}
+  checks:
+    - {type: event_count, name: approval.requested, value: 1, critical: true}
+    - {type: event_count, name: approval.granted, value: 1}
+    - {type: number, path: ledger.refund_count, value: 1}

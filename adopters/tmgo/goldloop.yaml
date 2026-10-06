@@ -1,0 +1,27 @@
+# TM GO reply extraction on goldloop. Run from this folder; reads a TM GO
+# checkout at TMGO_ROOT and never writes to it. Cases come from its
+# scripts/run_evals.py GOLDEN; nothing is duplicated.
+suite: "adapter:cases"
+target:
+  kind: python
+  ref: adapter:run
+  params:
+    model: openai:gpt-4o-mini      # production primary
+threshold: 0.8                     # same per-case bar as run_evals.py
+repeat: 3
+concurrency: 6
+gate:
+  min_mean: 0.8                    # run_evals.py THRESHOLD
+  max_flaky: 0
+  max_regressions: 0
+pricing:                           # $ per 1M tokens; check provider pages before quoting
+  gpt-4o-mini: {input: 0.15, output: 0.60}
+  gpt-4o: {input: 2.50, output: 10.00}
+  claude-haiku-4-5: {input: 1.00, output: 5.00}
+tune:
+  knob: prompt
+  optimizer_model: anthropic:claude-opus-5-5
+  holdout: 0.3
+  candidates: 3
+  iterations: 2
+  repeat: 2
