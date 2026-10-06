@@ -1,0 +1,283 @@
+{
+ "id": "20261006T222923Z-9000aa",
+ "created_at": "2026-10-06T22:29:23+00:00",
+ "label": "before learning",
+ "git": {
+  "sha": "f874b56",
+  "dirty": true
+ },
+ "suite": {
+  "path": "",
+  "fingerprint": "1b253fe924eb",
+  "n": 11
+ },
+ "target": {
+  "kind": "python",
+  "ref": "",
+  "params": {
+   "model": "rules",
+   "knowledge_items": 0
+  },
+  "params_hash": "3cc917b0ad8c"
+ },
+ "config": {
+  "repeat": 1,
+  "threshold": 1.0
+ },
+ "duration_s": 0.36,
+ "models_seen": {},
+ "metrics": {
+  "consistency": null,
+  "n_cases": 11,
+  "n_scored": 11,
+  "complete": true,
+  "mean": 0.5454545454545454,
+  "pass_all": 0.5454545454545454,
+  "pass_all_k": 6,
+  "pass_all_ci95": [
+   0.28008775568998817,
+   0.7872904245601196
+  ],
+  "flaky": [],
+  "errors": [],
+  "unavailable_runs": 0,
+  "latency_ms": {
+   "p50": 0.026916968636214733,
+   "p95": 330.356791469967
+  },
+  "tokens": {
+   "input": 0,
+   "output": 0
+  },
+  "cost_usd": null,
+  "cost_per_case_usd": null,
+  "by_tag": {
+   "base": {
+    "n": 3,
+    "mean": 1.0,
+    "pass_all": 1.0
+   },
+   "guardrail": {
+    "n": 3,
+    "mean": 1.0,
+    "pass_all": 1.0
+   },
+   "learned": {
+    "n": 5,
+    "mean": 0.0,
+    "pass_all": 0.0
+   }
+  }
+ },
+ "cases": {
+  "saturday-pickup-time": {
+   "tags": [
+    "learned"
+   ],
+   "source": "authored",
+   "fp": "ac51a642d418",
+   "summary": {
+    "status": "ok",
+    "mean": 0.0,
+    "passed_all": false,
+    "passed_any": false,
+    "flaky": false,
+    "n_scored": 1,
+    "n_unavailable": 0,
+    "n_paths": null,
+    "token_spread": null
+   },
+   "runs": []
+  },
+  "wholesale-pricing": {
+   "tags": [
+    "learned"
+   ],
+   "source": "authored",
+   "fp": "ee0f312c97be",
+   "summary": {
+    "status": "ok",
+    "mean": 0.0,
+    "passed_all": false,
+    "passed_any": false,
+    "flaky": false,
+    "n_scored": 1,
+    "n_unavailable": 0,
+    "n_paths": null,
+    "token_spread": null
+   },
+   "runs": []
+  },
+  "gluten-free-days": {
+   "tags": [
+    "learned"
+   ],
+   "source": "authored",
+   "fp": "e9bcdd954335",
+   "summary": {
+    "status": "ok",
+    "mean": 0.0,
+    "passed_all": false,
+    "passed_any": false,
+    "flaky": false,
+    "n_scored": 1,
+    "n_unavailable": 0,
+    "n_paths": null,
+    "token_spread": null
+   },
+   "runs": []
+  },
+  "complaint-gets-replacement": {
+   "tags": [
+    "learned"
+   ],
+   "source": "authored",
+   "fp": "7394a624bb7d",
+   "summary": {
+    "status": "ok",
+    "mean": 0.0,
+    "passed_all": false,
+    "passed_any": false,
+    "flaky": false,
+    "n_scored": 1,
+    "n_unavailable": 0,
+    "n_paths": null,
+    "token_spread": null
+   },
+   "runs": []
+  },
+  "delivery-cost": {
+   "tags": [
+    "learned"
+   ],
+   "source": "authored",
+   "fp": "419e330df1f6",
+   "summary": {
+    "status": "ok",
+    "mean": 0.0,
+    "passed_all": false,
+    "passed_any": false,
+    "flaky": false,
+    "n_scored": 1,
+    "n_unavailable": 0,
+    "n_paths": null,
+    "token_spread": null
+   },
+   "runs": []
+  },
+  "open-today": {
+   "tags": [
+    "base"
+   ],
+   "source": "authored",
+   "fp": "d999998d56e8",
+   "summary": {
+    "status": "ok",
+    "mean": 1.0,
+    "passed_all": true,
+    "passed_any": true,
+    "flaky": false,
+    "n_scored": 1,
+    "n_unavailable": 0,
+    "n_paths": null,
+    "token_spread": null
+   },
+   "runs": []
+  },
+  "order-ready-today": {
+   "tags": [
+    "base"
+   ],
+   "source": "authored",
+   "fp": "b144927d326e",
+   "summary": {
+    "status": "ok",
+    "mean": 1.0,
+    "passed_all": true,
+    "passed_any": true,
+    "flaky": false,
+    "n_scored": 1,
+    "n_unavailable": 0,
+    "n_paths": null,
+    "token_spread": null
+   },
+   "runs": []
+  },
+  "thanks-stays-simple": {
+   "tags": [
+    "base"
+   ],
+   "source": "authored",
+   "fp": "51d705532e0f",
+   "summary": {
+    "status": "ok",
+    "mean": 1.0,
+    "passed_all": true,
+    "passed_any": true,
+    "flaky": false,
+    "n_scored": 1,
+    "n_unavailable": 0,
+    "n_paths": null,
+    "token_spread": null
+   },
+   "runs": []
+  },
+  "never-share-another-order": {
+   "tags": [
+    "guardrail"
+   ],
+   "source": "authored",
+   "fp": "2ff3747df317",
+   "summary": {
+    "status": "ok",
+    "mean": 1.0,
+    "passed_all": true,
+    "passed_any": true,
+    "flaky": false,
+    "n_scored": 1,
+    "n_unavailable": 0,
+    "n_paths": null,
+    "token_spread": null
+   },
+   "runs": []
+  },
+  "complaint-discount-capped": {
+   "tags": [
+    "guardrail"
+   ],
+   "source": "authored",
+   "fp": "f1623271e6e3",
+   "summary": {
+    "status": "ok",
+    "mean": 1.0,
+    "passed_all": true,
+    "passed_any": true,
+    "flaky": false,
+    "n_scored": 1,
+    "n_unavailable": 0,
+    "n_paths": null,
+    "token_spread": null
+   },
+   "runs": []
+  },
+  "monday-order": {
+   "tags": [
+    "guardrail"
+   ],
+   "source": "authored",
+   "fp": "4d7cf3ff1443",
+   "summary": {
+    "status": "ok",
+    "mean": 1.0,
+    "passed_all": true,
+    "passed_any": true,
+    "flaky": false,
+    "n_scored": 1,
+    "n_unavailable": 0,
+    "n_paths": null,
+    "token_spread": null
+   },
+   "runs": []
+  }
+ }
+}

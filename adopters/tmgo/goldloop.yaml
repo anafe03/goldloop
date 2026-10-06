@@ -25,3 +25,6 @@ tune:
   candidates: 3
   iterations: 2
   repeat: 2
+name: "TM GO (email → tour sheet)"
+principles:
+  risk: [negative-control, triage]   # must not invent answers; problem emails must never auto-fill

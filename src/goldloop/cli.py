@@ -5,6 +5,7 @@
   goldloop run                      score the suite, save the run
   goldloop gate                     run (or take --run) and fail on policy / regressions vs baseline
   goldloop baseline latest          make a run the baseline (commit .goldloop/baseline.json)
+  goldloop scorecard --multi a b c  Cost / Reliability / Risk / Change, side by side per use case
   goldloop drift                    nightly: did the provider's model or any case change vs baseline?
   goldloop compare previous latest  case-level diff + McNemar
   goldloop runs                     history
@@ -169,6 +170,30 @@ def cmd_drift(args):
     sys.exit(1 if drift else 0)
 
 
+def cmd_scorecard(args):
+    """Same four rows for any use case. --multi DIR... puts several side by side,
+    each read from its own goldloop.yaml and latest saved run (no new calls)."""
+    import os
+    from .scorecard import load_latest, render, scorecard
+    targets = args.multi or ["."]
+    out = {}
+    for t in targets:
+        d, _, label = str(t).partition("@")          # "dir@label" picks a specific run
+        d = Path(d)
+        cfg = load_config(d / "goldloop.yaml")
+        run = load_latest(d, label or args.label) if not args.run else store.load_run(args.run)
+        if run is None:
+            print(f"{d}: no saved runs" + (f" labelled {args.label!r}" if args.label else ""))
+            continue
+        base_p = d / ".goldloop" / "baseline.json"
+        base = json.loads(base_p.read_text()) if base_p.exists() else None
+        name = cfg.get("name") or d.resolve().name
+        out[name] = sc = scorecard(run, cfg.get("principles"), base)
+        print(render(name, sc) + "\n")
+    if args.json:
+        Path(args.json).write_text(json.dumps(out, indent=1, default=str))
+
+
 def cmd_baseline(args):
     run = store.load_run(args.run)
     p = store.set_baseline(run)
@@ -299,6 +324,10 @@ def main(argv=None):
     p.add_argument("--markdown", help="write a PR-comment summary here")
     p.set_defaults(fn=cmd_gate)
     p = sub.add_parser("baseline"); p.add_argument("run", nargs="?", default="latest"); p.set_defaults(fn=cmd_baseline)
+    p = sub.add_parser("scorecard"); p.add_argument("--multi", nargs="*", metavar="DIR")
+    p.add_argument("--run"); p.add_argument("--label", help="use the latest run whose label contains this")
+    p.add_argument("--json", help="write the scorecards here")
+    p.set_defaults(fn=cmd_scorecard)
     p = sub.add_parser("drift"); runopts(p)
     p.add_argument("--run", help="check an existing run instead of running")
     p.add_argument("--baseline", default="baseline"); p.add_argument("--markdown")

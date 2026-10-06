@@ -18,7 +18,7 @@ from pathlib import Path
 import yaml
 
 DEFAULTS = {"suite": "evals/cases", "threshold": 0.8, "repeat": 1, "concurrency": 4,
-            "gate": {}, "pricing": {}, "tune": {}, "targets": {}}
+            "gate": {}, "pricing": {}, "tune": {}, "targets": {}, "principles": {}}
 
 
 def load_config(path: str | Path = "goldloop.yaml") -> dict:

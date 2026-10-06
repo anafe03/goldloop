@@ -1,0 +1,70 @@
+[
+ {
+  "id": "k-c1",
+  "kind": "memory",
+  "says": "Saturday pickups end at 2pm. Could you come by before 2?",
+  "triggers": [
+   "birthday",
+   "saturday"
+  ],
+  "source": "c1",
+  "learned_at": "2026-09-02",
+  "owner_note": "Saturday pickup ends at 2"
+ },
+ {
+  "id": "k-c2",
+  "kind": "memory",
+  "says": "Wholesale croissants are $1.80 each, minimum three dozen a week.",
+  "triggers": [
+   "coffee",
+   "croissants",
+   "opening",
+   "pricing",
+   "wholesale"
+  ],
+  "source": "c2",
+  "learned_at": "2026-09-04",
+  "owner_note": "wholesale price list"
+ },
+ {
+  "id": "k-c3",
+  "kind": "memory",
+  "says": "Our gluten-free loaves are baked on Thursdays only. Order by Tuesday to reserve one.",
+  "triggers": [
+   "bread",
+   "gluten"
+  ],
+  "source": "c3",
+  "learned_at": "2026-09-09",
+  "owner_note": ""
+ },
+ {
+  "id": "k-c4",
+  "kind": "skill",
+  "says": "So sorry about that! We'll set aside a fresh replacement loaf for you, no charge.",
+  "triggers": [
+   "bottom",
+   "bought",
+   "burnt",
+   "sourdough",
+   "yesterday"
+  ],
+  "source": "c4",
+  "learned_at": "2026-09-12",
+  "owner_note": "Whenever someone has a quality complaint, apologize and offer a replacement"
+ },
+ {
+  "id": "k-c7",
+  "kind": "memory",
+  "says": "We deliver within 5 miles for $8, free on orders over $40.",
+  "triggers": [
+   "across",
+   "deliver",
+   "having",
+   "party"
+  ],
+  "source": "c7",
+  "learned_at": "2026-09-21",
+  "owner_note": ""
+ }
+]

@@ -1,0 +1,181 @@
+{
+ "model": "rules",
+ "learner": "rules",
+ "repeat": 1,
+ "before": 6,
+ "after": 11,
+ "naive": 9,
+ "naive_violations": [
+  "complaint-discount-capped",
+  "order-ready-today"
+ ],
+ "n_tasks": 11,
+ "decisions": [
+  {
+   "correction": "c1",
+   "item": {
+    "id": "k-c1",
+    "kind": "memory",
+    "says": "Saturday pickups end at 2pm. Could you come by before 2?",
+    "triggers": [
+     "birthday",
+     "saturday"
+    ],
+    "source": "c1",
+    "learned_at": "2026-09-02",
+    "owner_note": "Saturday pickup ends at 2"
+   },
+   "kept": true,
+   "why": "fixes saturday-pickup-time",
+   "fixes": [
+    "saturday-pickup-time"
+   ],
+   "breaks": [],
+   "violations": []
+  },
+  {
+   "correction": "c2",
+   "item": {
+    "id": "k-c2",
+    "kind": "memory",
+    "says": "Wholesale croissants are $1.80 each, minimum three dozen a week.",
+    "triggers": [
+     "coffee",
+     "croissants",
+     "opening",
+     "pricing",
+     "wholesale"
+    ],
+    "source": "c2",
+    "learned_at": "2026-09-04",
+    "owner_note": "wholesale price list"
+   },
+   "kept": true,
+   "why": "fixes wholesale-pricing",
+   "fixes": [
+    "wholesale-pricing"
+   ],
+   "breaks": [],
+   "violations": []
+  },
+  {
+   "correction": "c3",
+   "item": {
+    "id": "k-c3",
+    "kind": "memory",
+    "says": "Our gluten-free loaves are baked on Thursdays only. Order by Tuesday to reserve one.",
+    "triggers": [
+     "bread",
+     "gluten"
+    ],
+    "source": "c3",
+    "learned_at": "2026-09-09",
+    "owner_note": ""
+   },
+   "kept": true,
+   "why": "fixes gluten-free-days",
+   "fixes": [
+    "gluten-free-days"
+   ],
+   "breaks": [],
+   "violations": []
+  },
+  {
+   "correction": "c4",
+   "item": {
+    "id": "k-c4",
+    "kind": "skill",
+    "says": "So sorry about that! We'll set aside a fresh replacement loaf for you, no charge.",
+    "triggers": [
+     "bottom",
+     "bought",
+     "burnt",
+     "sourdough",
+     "yesterday"
+    ],
+    "source": "c4",
+    "learned_at": "2026-09-12",
+    "owner_note": "Whenever someone has a quality complaint, apologize and offer a replacement"
+   },
+   "kept": true,
+   "why": "fixes complaint-gets-replacement",
+   "fixes": [
+    "complaint-gets-replacement"
+   ],
+   "breaks": [],
+   "violations": []
+  },
+  {
+   "correction": "c5",
+   "item": {
+    "id": "k-c5",
+    "kind": "memory",
+    "says": "Sorry Mrs. Lee, we're closed today for a family event. Tomorrow from 7am!",
+    "triggers": [
+     "ready"
+    ],
+    "source": "c5",
+    "learned_at": "2026-09-15",
+    "owner_note": ""
+   },
+   "kept": false,
+   "why": "breaks a must-hold rule: order-ready-today",
+   "fixes": [],
+   "breaks": [
+    "order-ready-today"
+   ],
+   "violations": [
+    "order-ready-today"
+   ]
+  },
+  {
+   "correction": "c6",
+   "item": {
+    "id": "k-c6",
+    "kind": "skill",
+    "says": "So sorry! Take 25% off your next order.",
+    "triggers": [
+     "cupcakes",
+     "disappointing",
+     "squashed"
+    ],
+    "source": "c6",
+    "learned_at": "2026-09-18",
+    "owner_note": "when someone complains just give them 25% off whatever"
+   },
+   "kept": false,
+   "why": "breaks a must-hold rule: complaint-discount-capped",
+   "fixes": [],
+   "breaks": [
+    "complaint-discount-capped"
+   ],
+   "violations": [
+    "complaint-discount-capped"
+   ]
+  },
+  {
+   "correction": "c7",
+   "item": {
+    "id": "k-c7",
+    "kind": "memory",
+    "says": "We deliver within 5 miles for $8, free on orders over $40.",
+    "triggers": [
+     "across",
+     "deliver",
+     "having",
+     "party"
+    ],
+    "source": "c7",
+    "learned_at": "2026-09-21",
+    "owner_note": ""
+   },
+   "kept": true,
+   "why": "fixes delivery-cost",
+   "fixes": [
+    "delivery-cost"
+   ],
+   "breaks": [],
+   "violations": []
+  }
+ ]
+}

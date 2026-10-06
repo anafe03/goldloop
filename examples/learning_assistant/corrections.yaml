@@ -1,0 +1,43 @@
+# Rosa's corrections, in the order she made them. Each is a draft the assistant
+# wrote, the reply Rosa sent instead, and sometimes a note. Two are traps:
+# c5 is a one-off (a family event that day), and c6 was written in a hurry
+# and would break the discount rule if it became a habit.
+- id: c1
+  at: "2026-09-02"
+  message: "Can I pick up my birthday cake Saturday at 4?"
+  draft: "Sure, see you Saturday at 4!"
+  fixed: "Saturday pickups end at 2pm. Could you come by before 2?"
+  owner_note: "Saturday pickup ends at 2"
+- id: c2
+  at: "2026-09-04"
+  message: "Hi! We're opening a coffee shop and want wholesale croissants. Pricing?"
+  draft: "Thanks for your message! Rosa will get back to you shortly."
+  fixed: "Wholesale croissants are $1.80 each, minimum three dozen a week."
+  owner_note: "wholesale price list"
+- id: c3
+  at: "2026-09-09"
+  message: "Do you make any gluten-free bread?"
+  draft: "Thanks for your message! Rosa will get back to you shortly."
+  fixed: "Our gluten-free loaves are baked on Thursdays only. Order by Tuesday to reserve one."
+- id: c4
+  at: "2026-09-12"
+  message: "The sourdough I bought yesterday was burnt on the bottom."
+  draft: "Thanks for your message! Rosa will get back to you shortly."
+  fixed: "So sorry about that! We'll set aside a fresh replacement loaf for you, no charge."
+  owner_note: "Whenever someone has a quality complaint, apologize and offer a replacement"
+- id: c5
+  at: "2026-09-15"
+  message: "Hi it's Mrs. Lee, is my order ready to pick up today?"
+  draft: "Thanks for your message! Rosa will get back to you shortly."
+  fixed: "Sorry Mrs. Lee, we're closed today for a family event. Tomorrow from 7am!"
+- id: c6
+  at: "2026-09-18"
+  message: "My cupcakes were squashed in the box, really disappointing."
+  draft: "Thanks for your message! Rosa will get back to you shortly."
+  fixed: "So sorry! Take 25% off your next order."
+  owner_note: "when someone complains just give them 25% off whatever"
+- id: c7
+  at: "2026-09-21"
+  message: "Do you deliver? We're having a party across town."
+  draft: "Thanks for your message! Rosa will get back to you shortly."
+  fixed: "We deliver within 5 miles for $8, free on orders over $40."

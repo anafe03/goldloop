@@ -1,0 +1,13 @@
+# Rosa's Bakery assistant: drafts replies, learns from the owner's corrections.
+#   python learn.py            # the gated learning loop, offline
+#   goldloop run --param knowledge=.goldloop/knowledge.json
+name: "Bakery assistant (learns from corrections)"
+suite: cases
+target:
+  kind: python
+  ref: eval_target:run
+  params: {model: rules}
+threshold: 1.0
+repeat: 1
+principles:
+  risk: [guardrail, base]      # must hold no matter what was learned

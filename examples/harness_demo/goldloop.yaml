@@ -22,3 +22,6 @@ gate:
 pricing:
   gpt-4o-mini: {input: 0.15, output: 0.60}
   claude-haiku-4-5: {input: 1.00, output: 5.00}
+name: "Support agent (refunds)"
+principles:
+  risk: [trust, injection, restraint, durability]   # tests that guard money, permissions and safe defaults
