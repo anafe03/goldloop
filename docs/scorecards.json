@@ -1,0 +1,214 @@
+{
+ "TM GO (email \u2192 tour sheet)": {
+  "run": "20261006T192551Z-1b35b3",
+  "label": "gpt-4o-mini, prod prompt, patched",
+  "n_cases": 61,
+  "repeat": 3,
+  "complete": true,
+  "cost": {
+   "usd_per_task": 0.00018514406779661016,
+   "tokens_per_task": 1109.0710382513662,
+   "p95_ms": 2264.821599709104
+  },
+  "reliability": {
+   "pass_all": 0.9016393442622951,
+   "k": 55,
+   "n": 61,
+   "ci95": [
+    0.8015516580247642,
+    0.9541360486326903
+   ],
+   "flaky": 2,
+   "same_steps": null
+  },
+  "risk": {
+   "guardrail_tests": 29,
+   "pass_all": 0.9655172413793104,
+   "ci95": [
+    0.8282410893529976,
+    0.9938869433859677
+   ],
+   "critical_violations": 0,
+   "runs_checked": 87
+  },
+  "change": {
+   "regressions": [],
+   "fixes": [],
+   "p": 1.0,
+   "verdict": "no case changed outcome",
+   "baseline": "20261006T192551Z-1b35b3"
+  }
+ },
+ "Support agent (refunds)": {
+  "run": "20261006T192147Z-7e669b",
+  "label": "final plan spot=true",
+  "n_cases": 32,
+  "repeat": 3,
+  "complete": true,
+  "cost": {
+   "usd_per_task": 0.00011271481481481481,
+   "tokens_per_task": 552.4166666666666,
+   "p95_ms": 3889.5517082419246
+  },
+  "reliability": {
+   "pass_all": 1.0,
+   "k": 32,
+   "n": 32,
+   "ci95": [
+    0.8928172849426366,
+    1.0
+   ],
+   "flaky": 0,
+   "same_steps": null
+  },
+  "risk": {
+   "guardrail_tests": 17,
+   "pass_all": 1.0,
+   "ci95": [
+    0.8156763396284354,
+    1.0
+   ],
+   "critical_violations": 0,
+   "runs_checked": 51
+  },
+  "change": {
+   "regressions": [],
+   "fixes": [],
+   "p": 1.0,
+   "verdict": "no case changed outcome",
+   "baseline": "20261006T205811Z-c5c4a3"
+  }
+ },
+ "Meridian (health insurance support)": {
+  "run": "20261006T224720Z-41bd76",
+  "label": "llm via Claude Code (haiku), no API key, provider fix",
+  "n_cases": 15,
+  "repeat": 3,
+  "complete": true,
+  "cost": {
+   "usd_per_task": null,
+   "tokens_per_task": 1549.5333333333333,
+   "p95_ms": 40918.41359222308
+  },
+  "reliability": {
+   "pass_all": 0.9333333333333333,
+   "k": 14,
+   "n": 15,
+   "ci95": [
+    0.7018292244757601,
+    0.9881334113938051
+   ],
+   "flaky": 1,
+   "same_steps": null
+  },
+  "risk": {
+   "guardrail_tests": 2,
+   "pass_all": 1.0,
+   "ci95": [
+    0.34237195288961925,
+    1.0
+   ],
+   "critical_violations": 0,
+   "runs_checked": 6
+  },
+  "change": {
+   "regressions": [
+    "my_deductible_left"
+   ],
+   "fixes": [],
+   "p": 1.0,
+   "verdict": "broke 1 case(s), too few to call the system worse overall (p=1.00)",
+   "baseline": "20261006T224054Z-036c28"
+  }
+ },
+ "TripTalk (travel concierge)": {
+  "run": "20261006T224245Z-936a65",
+  "label": "llm via Claude Code (haiku), no API key",
+  "n_cases": 16,
+  "repeat": 3,
+  "complete": true,
+  "cost": {
+   "usd_per_task": null,
+   "tokens_per_task": 1878.4583333333333,
+   "p95_ms": 13364.380208420334
+  },
+  "reliability": {
+   "pass_all": 1.0,
+   "k": 16,
+   "n": 16,
+   "ci95": [
+    0.8063865817272802,
+    1.0
+   ],
+   "flaky": 0,
+   "same_steps": null
+  },
+  "risk": {
+   "guardrail_tests": 5,
+   "pass_all": 1.0,
+   "ci95": [
+    0.5655085052479191,
+    1.0
+   ],
+   "critical_violations": 0,
+   "runs_checked": 15
+  },
+  "change": {
+   "regressions": [],
+   "fixes": [
+    "change_main",
+    "checked_bag_cost",
+    "refund_basic"
+   ],
+   "p": 0.25,
+   "verdict": "fixed 3 case(s), too few to call the system better overall (p=0.25)",
+   "baseline": "20261006T224056Z-b2c282"
+  }
+ },
+ "Bakery assistant (learns from corrections)": {
+  "run": "20261006T224149Z-b2378b",
+  "label": "after gated learning",
+  "n_cases": 11,
+  "repeat": 1,
+  "complete": true,
+  "cost": {
+   "usd_per_task": null,
+   "tokens_per_task": 0.0,
+   "p95_ms": 0.08933350909501314
+  },
+  "reliability": {
+   "pass_all": 1.0,
+   "k": 11,
+   "n": 11,
+   "ci95": [
+    0.7411599827511859,
+    1.0
+   ],
+   "flaky": 0,
+   "same_steps": null
+  },
+  "risk": {
+   "guardrail_tests": 6,
+   "pass_all": 1.0,
+   "ci95": [
+    0.6096569663469354,
+    0.9999999999999999
+   ],
+   "critical_violations": 0,
+   "runs_checked": 6
+  },
+  "change": {
+   "regressions": [],
+   "fixes": [
+    "complaint-gets-replacement",
+    "delivery-cost",
+    "gluten-free-days",
+    "saturday-pickup-time",
+    "wholesale-pricing"
+   ],
+   "p": 0.0625,
+   "verdict": "fixed 5 case(s), too few to call the system better overall (p=0.06)",
+   "baseline": "20261006T222923Z-9000aa"
+  }
+ }
+}

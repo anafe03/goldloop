@@ -1,0 +1,386 @@
+{
+ "id": "20261006T224056Z-b2c282",
+ "created_at": "2026-10-06T22:40:56+00:00",
+ "label": "keyword, offline",
+ "git": {
+  "sha": "ceec236",
+  "dirty": true
+ },
+ "suite": {
+  "path": "adapter:cases",
+  "fingerprint": "9cbc8ff98cfa",
+  "n": 16
+ },
+ "target": {
+  "kind": "python",
+  "ref": "adapter:run",
+  "params": {
+   "classifier": "keyword"
+  },
+  "params_hash": "20f388f05583"
+ },
+ "config": {
+  "repeat": 1,
+  "threshold": 1.0
+ },
+ "duration_s": 1.01,
+ "models_seen": {},
+ "metrics": {
+  "consistency": null,
+  "n_cases": 16,
+  "n_scored": 16,
+  "complete": true,
+  "mean": 0.8125,
+  "pass_all": 0.8125,
+  "pass_all_k": 13,
+  "pass_all_ci95": [
+   0.5699064013154177,
+   0.9340852122641324
+  ],
+  "flaky": [],
+  "errors": [],
+  "unavailable_runs": 0,
+  "latency_ms": {
+   "p50": 3.3084585156757385,
+   "p95": 971.8809480109485
+  },
+  "tokens": {
+   "input": 0,
+   "output": 0
+  },
+  "cost_usd": null,
+  "cost_per_case_usd": null,
+  "by_tag": {
+   "gate": {
+    "n": 5,
+    "mean": 1.0,
+    "pass_all": 1.0
+   },
+   "grounding": {
+    "n": 4,
+    "mean": 0.25,
+    "pass_all": 0.25
+   },
+   "routing": {
+    "n": 16,
+    "mean": 0.8125,
+    "pass_all": 0.8125
+   }
+  }
+ },
+ "cases": {
+  "find_route": {
+   "tags": [
+    "routing"
+   ],
+   "source": "authored",
+   "fp": "4b1bedc44180",
+   "summary": {
+    "status": "ok",
+    "mean": 1.0,
+    "passed_all": true,
+    "passed_any": true,
+    "flaky": false,
+    "n_scored": 1,
+    "n_unavailable": 0,
+    "n_paths": null,
+    "token_spread": null
+   },
+   "runs": []
+  },
+  "book_cheapest": {
+   "tags": [
+    "routing",
+    "gate"
+   ],
+   "source": "authored",
+   "fp": "b1a02a84da60",
+   "summary": {
+    "status": "ok",
+    "mean": 1.0,
+    "passed_all": true,
+    "passed_any": true,
+    "flaky": false,
+    "n_scored": 1,
+    "n_unavailable": 0,
+    "n_paths": null,
+    "token_spread": null
+   },
+   "runs": []
+  },
+  "book_flex_over_budget": {
+   "tags": [
+    "routing",
+    "gate"
+   ],
+   "source": "authored",
+   "fp": "6952e460dbf6",
+   "summary": {
+    "status": "ok",
+    "mean": 1.0,
+    "passed_all": true,
+    "passed_any": true,
+    "flaky": false,
+    "n_scored": 1,
+    "n_unavailable": 0,
+    "n_paths": null,
+    "token_spread": null
+   },
+   "runs": []
+  },
+  "flights_missing_date": {
+   "tags": [
+    "routing"
+   ],
+   "source": "authored",
+   "fp": "56a627a22f8a",
+   "summary": {
+    "status": "ok",
+    "mean": 1.0,
+    "passed_all": true,
+    "passed_any": true,
+    "flaky": false,
+    "n_scored": 1,
+    "n_unavailable": 0,
+    "n_paths": null,
+    "token_spread": null
+   },
+   "runs": []
+  },
+  "baggage_basic": {
+   "tags": [
+    "routing",
+    "grounding"
+   ],
+   "source": "authored",
+   "fp": "08f86d5e17ae",
+   "summary": {
+    "status": "ok",
+    "mean": 1.0,
+    "passed_all": true,
+    "passed_any": true,
+    "flaky": false,
+    "n_scored": 1,
+    "n_unavailable": 0,
+    "n_paths": null,
+    "token_spread": null
+   },
+   "runs": []
+  },
+  "change_main": {
+   "tags": [
+    "routing",
+    "grounding"
+   ],
+   "source": "authored",
+   "fp": "36154238facc",
+   "summary": {
+    "status": "ok",
+    "mean": 0.0,
+    "passed_all": false,
+    "passed_any": false,
+    "flaky": false,
+    "n_scored": 1,
+    "n_unavailable": 0,
+    "n_paths": null,
+    "token_spread": null
+   },
+   "runs": []
+  },
+  "refund_basic": {
+   "tags": [
+    "routing",
+    "grounding"
+   ],
+   "source": "authored",
+   "fp": "552cda6fc966",
+   "summary": {
+    "status": "ok",
+    "mean": 0.0,
+    "passed_all": false,
+    "passed_any": false,
+    "flaky": false,
+    "n_scored": 1,
+    "n_unavailable": 0,
+    "n_paths": null,
+    "token_spread": null
+   },
+   "runs": []
+  },
+  "checked_bag_cost": {
+   "tags": [
+    "routing",
+    "grounding"
+   ],
+   "source": "authored",
+   "fp": "ca4d1684a3ed",
+   "summary": {
+    "status": "ok",
+    "mean": 0.0,
+    "passed_all": false,
+    "passed_any": false,
+    "flaky": false,
+    "n_scored": 1,
+    "n_unavailable": 0,
+    "n_paths": null,
+    "token_spread": null
+   },
+   "runs": []
+  },
+  "lookup_code": {
+   "tags": [
+    "routing"
+   ],
+   "source": "authored",
+   "fp": "c557b53376c6",
+   "summary": {
+    "status": "ok",
+    "mean": 1.0,
+    "passed_all": true,
+    "passed_any": true,
+    "flaky": false,
+    "n_scored": 1,
+    "n_unavailable": 0,
+    "n_paths": null,
+    "token_spread": null
+   },
+   "runs": []
+  },
+  "lookup_show_trip": {
+   "tags": [
+    "routing"
+   ],
+   "source": "authored",
+   "fp": "0f07d68a9259",
+   "summary": {
+    "status": "ok",
+    "mean": 1.0,
+    "passed_all": true,
+    "passed_any": true,
+    "flaky": false,
+    "n_scored": 1,
+    "n_unavailable": 0,
+    "n_paths": null,
+    "token_spread": null
+   },
+   "runs": []
+  },
+  "cancel_code": {
+   "tags": [
+    "routing",
+    "gate"
+   ],
+   "source": "authored",
+   "fp": "372bbfd8bd8d",
+   "summary": {
+    "status": "ok",
+    "mean": 1.0,
+    "passed_all": true,
+    "passed_any": true,
+    "flaky": false,
+    "n_scored": 1,
+    "n_unavailable": 0,
+    "n_paths": null,
+    "token_spread": null
+   },
+   "runs": []
+  },
+  "cancel_phrasing": {
+   "tags": [
+    "routing",
+    "gate"
+   ],
+   "source": "authored",
+   "fp": "2534036a1036",
+   "summary": {
+    "status": "ok",
+    "mean": 1.0,
+    "passed_all": true,
+    "passed_any": true,
+    "flaky": false,
+    "n_scored": 1,
+    "n_unavailable": 0,
+    "n_paths": null,
+    "token_spread": null
+   },
+   "runs": []
+  },
+  "change_reschedule": {
+   "tags": [
+    "routing",
+    "gate"
+   ],
+   "source": "authored",
+   "fp": "2e53280bee96",
+   "summary": {
+    "status": "ok",
+    "mean": 1.0,
+    "passed_all": true,
+    "passed_any": true,
+    "flaky": false,
+    "n_scored": 1,
+    "n_unavailable": 0,
+    "n_paths": null,
+    "token_spread": null
+   },
+   "runs": []
+  },
+  "change_phrasing": {
+   "tags": [
+    "routing"
+   ],
+   "source": "authored",
+   "fp": "11c3445eb4ed",
+   "summary": {
+    "status": "ok",
+    "mean": 1.0,
+    "passed_all": true,
+    "passed_any": true,
+    "flaky": false,
+    "n_scored": 1,
+    "n_unavailable": 0,
+    "n_paths": null,
+    "token_spread": null
+   },
+   "runs": []
+  },
+  "escalate_dispute": {
+   "tags": [
+    "routing"
+   ],
+   "source": "authored",
+   "fp": "e0062f717b3e",
+   "summary": {
+    "status": "ok",
+    "mean": 1.0,
+    "passed_all": true,
+    "passed_any": true,
+    "flaky": false,
+    "n_scored": 1,
+    "n_unavailable": 0,
+    "n_paths": null,
+    "token_spread": null
+   },
+   "runs": []
+  },
+  "escalate_upset": {
+   "tags": [
+    "routing"
+   ],
+   "source": "authored",
+   "fp": "bc202cbf7889",
+   "summary": {
+    "status": "ok",
+    "mean": 1.0,
+    "passed_all": true,
+    "passed_any": true,
+    "flaky": false,
+    "n_scored": 1,
+    "n_unavailable": 0,
+    "n_paths": null,
+    "token_spread": null
+   },
+   "runs": []
+  }
+ }
+}

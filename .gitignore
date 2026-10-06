@@ -11,3 +11,5 @@ adopters/tmgo/.goldloop/
 adopters/tmgo/prompts/
 **/.goldloop/gm_*.json
 **/.goldloop/*_before.json
+
+adopters/climb/

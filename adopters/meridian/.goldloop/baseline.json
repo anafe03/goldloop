@@ -1,0 +1,365 @@
+{
+ "id": "20261006T224054Z-036c28",
+ "created_at": "2026-10-06T22:40:54+00:00",
+ "label": "keyword, offline",
+ "git": {
+  "sha": "ceec236",
+  "dirty": true
+ },
+ "suite": {
+  "path": "adapter:cases",
+  "fingerprint": "e5fcd5ea3de5",
+  "n": 15
+ },
+ "target": {
+  "kind": "python",
+  "ref": "adapter:run",
+  "params": {
+   "classifier": "keyword"
+  },
+  "params_hash": "20f388f05583"
+ },
+ "config": {
+  "repeat": 1,
+  "threshold": 1.0
+ },
+ "duration_s": 9.97,
+ "models_seen": {},
+ "metrics": {
+  "consistency": null,
+  "n_cases": 15,
+  "n_scored": 15,
+  "complete": true,
+  "mean": 1.0,
+  "pass_all": 1.0,
+  "pass_all_k": 15,
+  "pass_all_ci95": [
+   0.7961107336956521,
+   1.0
+  ],
+  "flaky": [],
+  "errors": [],
+  "unavailable_runs": 0,
+  "latency_ms": {
+   "p50": 3.5391669953241944,
+   "p95": 9856.548412283882
+  },
+  "tokens": {
+   "input": 0,
+   "output": 0
+  },
+  "cost_usd": null,
+  "cost_per_case_usd": null,
+  "by_tag": {
+   "gate": {
+    "n": 2,
+    "mean": 1.0,
+    "pass_all": 1.0
+   },
+   "grounding": {
+    "n": 5,
+    "mean": 1.0,
+    "pass_all": 1.0
+   },
+   "routing": {
+    "n": 15,
+    "mean": 1.0,
+    "pass_all": 1.0
+   }
+  }
+ },
+ "cases": {
+  "what_is_copay": {
+   "tags": [
+    "routing",
+    "grounding"
+   ],
+   "source": "authored",
+   "fp": "ef6255fe9f48",
+   "summary": {
+    "status": "ok",
+    "mean": 1.0,
+    "passed_all": true,
+    "passed_any": true,
+    "flaky": false,
+    "n_scored": 1,
+    "n_unavailable": 0,
+    "n_paths": null,
+    "token_spread": null
+   },
+   "runs": []
+  },
+  "plans_overview": {
+   "tags": [
+    "routing",
+    "grounding"
+   ],
+   "source": "authored",
+   "fp": "49a8743d3ab1",
+   "summary": {
+    "status": "ok",
+    "mean": 1.0,
+    "passed_all": true,
+    "passed_any": true,
+    "flaky": false,
+    "n_scored": 1,
+    "n_unavailable": 0,
+    "n_paths": null,
+    "token_spread": null
+   },
+   "runs": []
+  },
+  "specialist_copay": {
+   "tags": [
+    "routing",
+    "grounding"
+   ],
+   "source": "authored",
+   "fp": "fefa022197a1",
+   "summary": {
+    "status": "ok",
+    "mean": 1.0,
+    "passed_all": true,
+    "passed_any": true,
+    "flaky": false,
+    "n_scored": 1,
+    "n_unavailable": 0,
+    "n_paths": null,
+    "token_spread": null
+   },
+   "runs": []
+  },
+  "flu_shot_covered": {
+   "tags": [
+    "routing",
+    "grounding"
+   ],
+   "source": "authored",
+   "fp": "6e5d6124d185",
+   "summary": {
+    "status": "ok",
+    "mean": 1.0,
+    "passed_all": true,
+    "passed_any": true,
+    "flaky": false,
+    "n_scored": 1,
+    "n_unavailable": 0,
+    "n_paths": null,
+    "token_spread": null
+   },
+   "runs": []
+  },
+  "my_deductible_left": {
+   "tags": [
+    "routing"
+   ],
+   "source": "authored",
+   "fp": "c0a9f79da857",
+   "summary": {
+    "status": "ok",
+    "mean": 1.0,
+    "passed_all": true,
+    "passed_any": true,
+    "flaky": false,
+    "n_scored": 1,
+    "n_unavailable": 0,
+    "n_paths": null,
+    "token_spread": null
+   },
+   "runs": []
+  },
+  "am_i_active": {
+   "tags": [
+    "routing"
+   ],
+   "source": "authored",
+   "fp": "be2bb654ed1f",
+   "summary": {
+    "status": "ok",
+    "mean": 1.0,
+    "passed_all": true,
+    "passed_any": true,
+    "flaky": false,
+    "n_scored": 1,
+    "n_unavailable": 0,
+    "n_paths": null,
+    "token_spread": null
+   },
+   "runs": []
+  },
+  "pay_balance": {
+   "tags": [
+    "routing",
+    "gate"
+   ],
+   "source": "authored",
+   "fp": "f038ae632194",
+   "summary": {
+    "status": "ok",
+    "mean": 1.0,
+    "passed_all": true,
+    "passed_any": true,
+    "flaky": false,
+    "n_scored": 1,
+    "n_unavailable": 0,
+    "n_paths": null,
+    "token_spread": null
+   },
+   "runs": []
+  },
+  "pay_over_cap": {
+   "tags": [
+    "routing",
+    "gate"
+   ],
+   "source": "authored",
+   "fp": "89c67a5a5a73",
+   "summary": {
+    "status": "ok",
+    "mean": 1.0,
+    "passed_all": true,
+    "passed_any": true,
+    "flaky": false,
+    "n_scored": 1,
+    "n_unavailable": 0,
+    "n_paths": null,
+    "token_spread": null
+   },
+   "runs": []
+  },
+  "appeal_denied": {
+   "tags": [
+    "routing"
+   ],
+   "source": "authored",
+   "fp": "0ebc92bb9533",
+   "summary": {
+    "status": "ok",
+    "mean": 1.0,
+    "passed_all": true,
+    "passed_any": true,
+    "flaky": false,
+    "n_scored": 1,
+    "n_unavailable": 0,
+    "n_paths": null,
+    "token_spread": null
+   },
+   "runs": []
+  },
+  "find_cardiologist": {
+   "tags": [
+    "routing"
+   ],
+   "source": "authored",
+   "fp": "afa980a78df9",
+   "summary": {
+    "status": "ok",
+    "mean": 1.0,
+    "passed_all": true,
+    "passed_any": true,
+    "flaky": false,
+    "n_scored": 1,
+    "n_unavailable": 0,
+    "n_paths": null,
+    "token_spread": null
+   },
+   "runs": []
+  },
+  "find_pediatrician": {
+   "tags": [
+    "routing"
+   ],
+   "source": "authored",
+   "fp": "d139c92b6321",
+   "summary": {
+    "status": "ok",
+    "mean": 1.0,
+    "passed_all": true,
+    "passed_any": true,
+    "flaky": false,
+    "n_scored": 1,
+    "n_unavailable": 0,
+    "n_paths": null,
+    "token_spread": null
+   },
+   "runs": []
+  },
+  "shop_plans": {
+   "tags": [
+    "routing",
+    "grounding"
+   ],
+   "source": "authored",
+   "fp": "16f4cd9003a9",
+   "summary": {
+    "status": "ok",
+    "mean": 1.0,
+    "passed_all": true,
+    "passed_any": true,
+    "flaky": false,
+    "n_scored": 1,
+    "n_unavailable": 0,
+    "n_paths": null,
+    "token_spread": null
+   },
+   "runs": []
+  },
+  "change_coverage": {
+   "tags": [
+    "routing"
+   ],
+   "source": "authored",
+   "fp": "af63c9e9bf0c",
+   "summary": {
+    "status": "ok",
+    "mean": 1.0,
+    "passed_all": true,
+    "passed_any": true,
+    "flaky": false,
+    "n_scored": 1,
+    "n_unavailable": 0,
+    "n_paths": null,
+    "token_spread": null
+   },
+   "runs": []
+  },
+  "talk_to_rep": {
+   "tags": [
+    "routing"
+   ],
+   "source": "authored",
+   "fp": "ec71e4cecd20",
+   "summary": {
+    "status": "ok",
+    "mean": 1.0,
+    "passed_all": true,
+    "passed_any": true,
+    "flaky": false,
+    "n_scored": 1,
+    "n_unavailable": 0,
+    "n_paths": null,
+    "token_spread": null
+   },
+   "runs": []
+  },
+  "grievance": {
+   "tags": [
+    "routing"
+   ],
+   "source": "authored",
+   "fp": "bd9f489d89e0",
+   "summary": {
+    "status": "ok",
+    "mean": 1.0,
+    "passed_all": true,
+    "passed_any": true,
+    "flaky": false,
+    "n_scored": 1,
+    "n_unavailable": 0,
+    "n_paths": null,
+    "token_spread": null
+   },
+   "runs": []
+  }
+ }
+}

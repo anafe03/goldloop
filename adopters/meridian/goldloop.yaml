@@ -1,0 +1,12 @@
+# Meridian (health insurance support) on goldloop. Reads the repo from outside and never writes to it.
+#   goldloop run                                    # keyword classifier, offline
+#   goldloop run --param classifier=llm --param model=claude-code:haiku --repeat 3
+#                                                   # LLM path on the Claude Code subscription, no API key
+name: "Meridian (health insurance support)"
+suite: "adapter:cases"
+target: {kind: python, ref: "adapter:run", params: {classifier: keyword}}
+threshold: 1.0
+repeat: 1
+concurrency: 4
+principles:
+  risk: [gate, determination]     # money and lookups must be right whatever the model says
